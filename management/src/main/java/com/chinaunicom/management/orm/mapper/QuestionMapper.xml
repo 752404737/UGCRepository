@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.chinaunicom.management.orm.mapper.QuestionMapper">
+    <!--<resultMap id="BaseResultMap" type="com.chinaunicom.management.entity.Question">
+        <id property="id" column="id"/>
+        <result property="question" column="question" />
+        <result property="type" column="type" />
+        <result property="writer" column="writer" />
+        <result property="date" column="date"  />
+    </resultMap>-->
+
+    <!--<sql id="Base_Column_List">
+        id, hello_world
+    </sql>
+
+    <select id="getHelloWorld" resultMap="BaseResultMap">
+        select <include refid="Base_Column_List"/> FROM hello_world
+    </select>-->
+
+    <select id="getQuestion" resultType="com.chinaunicom.management.entity.Question">
+        select * from question
+    </select>
+
+    <select id="getQuestionUptime" resultType="com.chinaunicom.management.entity.Question">
+        SELECT*FROM question WHERE uptime !="" ORDER BY uptime
+    </select>
+
+    <select id="getQuestionPrioritySort" resultType="com.chinaunicom.management.entity.Question">
+        SELECT * FROM question ORDER BY FIND_IN_SET(priority,"高,中,低")
+    </select>
+
+    <select id="getQuestionNum" resultType="java.lang.Integer">
+        select count(id) from question
+    </select>
+
+    <select id="getQuestionTodayNum" resultType="java.lang.Integer">
+        select count(id) from question where TO_DAYS(date) = TO_DAYS(NOW())
+    </select>
+</mapper>
