@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.chinaunicom.management.orm.mapper.UsrRoleMapper" >
+  <resultMap id="BaseResultMap" type="com.chinaunicom.management.entity.UsrRoleKey" >
+    <id column="usr_account" property="usrAccount" jdbcType="VARCHAR" />
+    <id column="role_id" property="roleId" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    usr_account, role_id
+  </sql>
+  <!-- 根据usrAccount获取roleId-->
+  <select id="getRoleIdByUsrAccount" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
+    from usr_role
+    where usr_account = #{usrAccount, jdbcType=VARCHAR}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="com.chinaunicom.management.entity.UsrRoleKey" >
+    delete from usr_role
+    where usr_account = #{usrAccount,jdbcType=VARCHAR}
+      and role_id = #{roleId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.chinaunicom.management.entity.UsrRoleKey" >
+    insert into usr_role (usr_account, role_id)
+    values (#{usrAccount,jdbcType=VARCHAR}, #{roleId,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.chinaunicom.management.entity.UsrRoleKey" >
+    insert into usr_role
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="usrAccount != null" >
+        usr_account,
+      </if>
+      <if test="roleId != null" >
+        role_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="usrAccount != null" >
+        #{usrAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="roleId != null" >
+        #{roleId,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+</mapper>

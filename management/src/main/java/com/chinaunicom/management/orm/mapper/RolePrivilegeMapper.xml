@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.chinaunicom.management.orm.mapper.RolePrivilegeMapper" >
+  <resultMap id="BaseResultMap" type="com.chinaunicom.management.entity.RolePrivilegeKey" >
+    <id column="role_id" property="roleId" jdbcType="VARCHAR" />
+    <id column="privilege_id" property="privilegeId" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    role_id, privilege_id
+  </sql>
+
+  <!-- 根据roleId获取privilegeId -->
+  <select id="selectPrivilegeIdByRoleIdList" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List"/>
+    from role_privilege where role_id in
+    <foreach collection="roleIdList" item="roleId" open="(" close=")" separator=",">
+      #{roleId}
+    </foreach>
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="com.chinaunicom.management.entity.RolePrivilegeKey" >
+    delete from role_privilege
+    where role_id = #{roleId,jdbcType=VARCHAR}
+      and privilege_id = #{privilegeId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.chinaunicom.management.entity.RolePrivilegeKey" >
+    insert into role_privilege (role_id, privilege_id)
+    values (#{roleId,jdbcType=VARCHAR}, #{privilegeId,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.chinaunicom.management.entity.RolePrivilegeKey" >
+    insert into role_privilege
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="roleId != null" >
+        role_id,
+      </if>
+      <if test="privilegeId != null" >
+        privilege_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="roleId != null" >
+        #{roleId,jdbcType=VARCHAR},
+      </if>
+      <if test="privilegeId != null" >
+        #{privilegeId,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+</mapper>

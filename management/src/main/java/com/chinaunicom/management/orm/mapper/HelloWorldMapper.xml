@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.chinaunicom.management.orm.mapper.HelloWorldMapper">
+    <resultMap id="BaseResultMap" type="com.chinaunicom.management.entity.HelloWorld">
+        <id property="id" column="id"/>
+        <result property="helloWorld" column="hello_world" />
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id, hello_world
+    </sql>
+
+    <select id="getHelloWorld" resultMap="BaseResultMap">
+        select <include refid="Base_Column_List"/> FROM hello_world
+    </select>
+</mapper>

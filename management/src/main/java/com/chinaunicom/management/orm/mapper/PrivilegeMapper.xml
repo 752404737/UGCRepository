@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.chinaunicom.management.orm.mapper.PrivilegeMapper" >
+  <resultMap id="BaseResultMap" type="com.chinaunicom.management.entity.Privilege" >
+    <id column="privilege_id" property="privilegeId" jdbcType="VARCHAR" />
+    <result column="privilege_description" property="privilegeDescription" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    privilege_id, privilege_description
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from privilege
+    where privilege_id = #{privilegeId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from privilege
+    where privilege_id = #{privilegeId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.chinaunicom.management.entity.Privilege" >
+    insert into privilege (privilege_id, privilege_description
+      )
+    values (#{privilegeId,jdbcType=VARCHAR}, #{privilegeDescription,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.chinaunicom.management.entity.Privilege" >
+    insert into privilege
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="privilegeId != null" >
+        privilege_id,
+      </if>
+      <if test="privilegeDescription != null" >
+        privilege_description,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="privilegeId != null" >
+        #{privilegeId,jdbcType=VARCHAR},
+      </if>
+      <if test="privilegeDescription != null" >
+        #{privilegeDescription,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.chinaunicom.management.entity.Privilege" >
+    update privilege
+    <set >
+      <if test="privilegeDescription != null" >
+        privilege_description = #{privilegeDescription,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where privilege_id = #{privilegeId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.chinaunicom.management.entity.Privilege" >
+    update privilege
+    set privilege_description = #{privilegeDescription,jdbcType=VARCHAR}
+    where privilege_id = #{privilegeId,jdbcType=VARCHAR}
+  </update>
+</mapper>

@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.chinaunicom.management.orm.mapper.MenuMapper" >
+  <resultMap id="BaseResultMap" type="com.chinaunicom.management.entity.Menu" >
+    <id column="menu_id" property="menuId" jdbcType="INTEGER" />
+    <id column="privilege_id" property="privilegeId" jdbcType="VARCHAR" />
+    <result column="menu_parent" property="menuParent" jdbcType="INTEGER" />
+    <result column="menu_name" property="menuName" jdbcType="VARCHAR" />
+    <result column="menu_url" property="menuUrl" jdbcType="VARCHAR" />
+    <result column="menu_ico" property="menuIco" jdbcType="VARCHAR" />
+    <result column="menu_is_leaf" property="menuIsLeaf" jdbcType="BIT" />
+    <result column="menu_level" property="menuLevel" jdbcType="INTEGER" />
+    <result column="menu_description" property="menuDescription" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    menu_id, privilege_id, menu_parent, menu_name, menu_url, menu_ico, menu_is_leaf, 
+    menu_level, menu_description
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="com.chinaunicom.management.entity.MenuKey" >
+    select 
+    <include refid="Base_Column_List" />
+    from menu
+    where menu_id = #{menuId,jdbcType=INTEGER}
+      and privilege_id = #{privilegeId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="com.chinaunicom.management.entity.MenuKey" >
+    delete from menu
+    where menu_id = #{menuId,jdbcType=INTEGER}
+      and privilege_id = #{privilegeId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.chinaunicom.management.entity.Menu" >
+    insert into menu (menu_id, privilege_id, menu_parent, 
+      menu_name, menu_url, menu_ico, 
+      menu_is_leaf, menu_level, menu_description
+      )
+    values (#{menuId,jdbcType=INTEGER}, #{privilegeId,jdbcType=VARCHAR}, #{menuParent,jdbcType=INTEGER}, 
+      #{menuName,jdbcType=VARCHAR}, #{menuUrl,jdbcType=VARCHAR}, #{menuIco,jdbcType=VARCHAR}, 
+      #{menuIsLeaf,jdbcType=BIT}, #{menuLevel,jdbcType=INTEGER}, #{menuDescription,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.chinaunicom.management.entity.Menu" >
+    insert into menu
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="menuId != null" >
+        menu_id,
+      </if>
+      <if test="privilegeId != null" >
+        privilege_id,
+      </if>
+      <if test="menuParent != null" >
+        menu_parent,
+      </if>
+      <if test="menuName != null" >
+        menu_name,
+      </if>
+      <if test="menuUrl != null" >
+        menu_url,
+      </if>
+      <if test="menuIco != null" >
+        menu_ico,
+      </if>
+      <if test="menuIsLeaf != null" >
+        menu_is_leaf,
+      </if>
+      <if test="menuLevel != null" >
+        menu_level,
+      </if>
+      <if test="menuDescription != null" >
+        menu_description,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="menuId != null" >
+        #{menuId,jdbcType=INTEGER},
+      </if>
+      <if test="privilegeId != null" >
+        #{privilegeId,jdbcType=VARCHAR},
+      </if>
+      <if test="menuParent != null" >
+        #{menuParent,jdbcType=INTEGER},
+      </if>
+      <if test="menuName != null" >
+        #{menuName,jdbcType=VARCHAR},
+      </if>
+      <if test="menuUrl != null" >
+        #{menuUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="menuIco != null" >
+        #{menuIco,jdbcType=VARCHAR},
+      </if>
+      <if test="menuIsLeaf != null" >
+        #{menuIsLeaf,jdbcType=BIT},
+      </if>
+      <if test="menuLevel != null" >
+        #{menuLevel,jdbcType=INTEGER},
+      </if>
+      <if test="menuDescription != null" >
+        #{menuDescription,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.chinaunicom.management.entity.Menu" >
+    update menu
+    <set >
+      <if test="menuParent != null" >
+        menu_parent = #{menuParent,jdbcType=INTEGER},
+      </if>
+      <if test="menuName != null" >
+        menu_name = #{menuName,jdbcType=VARCHAR},
+      </if>
+      <if test="menuUrl != null" >
+        menu_url = #{menuUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="menuIco != null" >
+        menu_ico = #{menuIco,jdbcType=VARCHAR},
+      </if>
+      <if test="menuIsLeaf != null" >
+        menu_is_leaf = #{menuIsLeaf,jdbcType=BIT},
+      </if>
+      <if test="menuLevel != null" >
+        menu_level = #{menuLevel,jdbcType=INTEGER},
+      </if>
+      <if test="menuDescription != null" >
+        menu_description = #{menuDescription,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where menu_id = #{menuId,jdbcType=INTEGER}
+      and privilege_id = #{privilegeId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.chinaunicom.management.entity.Menu" >
+    update menu
+    set menu_parent = #{menuParent,jdbcType=INTEGER},
+      menu_name = #{menuName,jdbcType=VARCHAR},
+      menu_url = #{menuUrl,jdbcType=VARCHAR},
+      menu_ico = #{menuIco,jdbcType=VARCHAR},
+      menu_is_leaf = #{menuIsLeaf,jdbcType=BIT},
+      menu_level = #{menuLevel,jdbcType=INTEGER},
+      menu_description = #{menuDescription,jdbcType=VARCHAR}
+    where menu_id = #{menuId,jdbcType=INTEGER}
+      and privilege_id = #{privilegeId,jdbcType=VARCHAR}
+  </update>
+</mapper>
