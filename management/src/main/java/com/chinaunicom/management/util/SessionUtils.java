@@ -1,5 +1,9 @@
 package com.chinaunicom.management.util;
 
+import com.chinaunicom.management.entity.Usr;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.subject.Subject;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -16,5 +20,14 @@ public class SessionUtils {
     public static HttpSession getSession(HttpServletRequest request) {
         HttpSession session = request.getSession();
         return session;
+    }
+
+    /**
+     * @return 获取用户信息
+     */
+    public static Usr getUsrFromSession() {
+        Subject subject = SecurityUtils.getSubject();
+        Usr usr = (Usr)subject.getPrincipal();
+        return usr;
     }
 }
