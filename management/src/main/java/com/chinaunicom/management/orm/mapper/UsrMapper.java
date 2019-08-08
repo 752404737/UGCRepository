@@ -1,6 +1,9 @@
 package com.chinaunicom.management.orm.mapper;
 
 import com.chinaunicom.management.entity.Usr;
+import com.chinaunicom.management.entity.dto.UsrID;
+
+import java.util.List;
 
 public interface UsrMapper {
     int deleteByPrimaryKey(String usrAccount);
@@ -15,4 +18,6 @@ public interface UsrMapper {
     int updateByPrimaryKeySelective(Usr record);
 
     int updateByPrimaryKey(Usr record);
+
+    List<UsrID> getUser();
 }

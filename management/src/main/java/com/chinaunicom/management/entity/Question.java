@@ -3,7 +3,7 @@ package com.chinaunicom.management.entity;
 import java.util.Date;
 
 public class Question {
-    int id;
+    String id;
     String question;
     String description;
     String type;
@@ -34,11 +34,11 @@ public class Question {
         this.priority = priority;
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
