@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.chinaunicom.management.orm.mapper.ForumContentMapper" >
+  <resultMap id="BaseResultMap" type="com.chinaunicom.management.entity.ForumContent" >
+    <id column="forum_content_id" property="forumContentId" jdbcType="INTEGER" />
+    <result column="forum_content_title" property="forumContentTitle" jdbcType="VARCHAR" />
+    <result column="usr_account" property="usrAccount" jdbcType="VARCHAR" />
+    <result column="answer_count" property="answerCount" jdbcType="INTEGER" />
+    <result column="view_count" property="viewCount" jdbcType="INTEGER" />
+    <result column="link_task_id" property="linkTaskId" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.chinaunicom.management.entity.ForumContent" extends="BaseResultMap" >
+    <result column="forum_content" property="forumContent" jdbcType="LONGVARCHAR" />
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    forum_content_id, forum_content_title, usr_account, answer_count, view_count, link_task_id, 
+    create_time
+  </sql>
+  <sql id="Blob_Column_List" >
+    forum_content
+  </sql>
+
+  <sql id="Forum_Content_List" >
+    fc.forum_content_id forumContentId, fc.forum_content_title forumContentTitle, fc.usr_account usrAccount, fc.answer_count answerCount,
+    fc.view_count viewCount, fc.link_task_id linkTaskId, fc.create_time createTime, fc.forum_content forumContent
+  </sql>
+  <sql id="Usr_List">
+    u.usr_account "usr.usrAccount", u.usr_name "usr.usrName", u.usr_password "usr.usrPassword", u.usr_headportrait_url "usr.usrHeadportraitUrl"
+  </sql>
+
+  <!-- 获取所有论坛中的内容 -->
+  <select id="selectAllForumContent" resultType="com.chinaunicom.management.entity.ForumContent">
+    select
+    <include refid="Forum_Content_List"/>
+    ,
+    <include refid="Usr_List" />
+    from forum_content fc
+    inner join usr u on fc.usr_account = u.usr_account
+  </select>
+
+  <!-- 分页查询论坛中的内容-->
+  <select id="selectForumContentForPage" resultType="com.chinaunicom.management.entity.ForumContent" parameterType="com.chinaunicom.management.entity.dto.PageQueryParam">
+    select
+    <include refid="Forum_Content_List"/>
+    ,
+    <include refid="Usr_List" />
+    from forum_content fc
+    inner join usr u on fc.usr_account = u.usr_account
+    order by forum_content_id
+    limit ${(currentIndex-1)*pageSize}, #{pageSize, jdbcType=INTEGER}
+  </select>
+
+  <!-- 根据主键查询论坛提问内容-->
+  <select id="selectByPrimaryKey" resultType="com.chinaunicom.management.entity.ForumContent" parameterType="java.lang.Integer" >
+    select
+    <include refid="Forum_Content_List"/>
+    ,
+    <include refid="Usr_List" />
+    from forum_content fc
+    inner join usr u on fc.usr_account = u.usr_account
+    where fc.forum_content_id = #{forumContentId,jdbcType=INTEGER}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from forum_content
+    where forum_content_id = #{forumContentId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.chinaunicom.management.entity.ForumContent" >
+    insert into forum_content (forum_content_id, forum_content_title, 
+      usr_account, answer_count, view_count, 
+      link_task_id, create_time, forum_content
+      )
+    values (#{forumContentId,jdbcType=INTEGER}, #{forumContentTitle,jdbcType=VARCHAR}, 
+      #{usrAccount,jdbcType=VARCHAR}, #{answerCount,jdbcType=INTEGER}, #{viewCount,jdbcType=INTEGER}, 
+      #{linkTaskId,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{forumContent,jdbcType=LONGVARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" useGeneratedKeys="true" keyProperty="forumContentId" parameterType="com.chinaunicom.management.entity.ForumContent" >
+    insert into forum_content
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="forumContentId != null" >
+        forum_content_id,
+      </if>
+      <if test="forumContentTitle != null" >
+        forum_content_title,
+      </if>
+      <if test="usrAccount != null" >
+        usr_account,
+      </if>
+      <if test="answerCount != null" >
+        answer_count,
+      </if>
+      <if test="viewCount != null" >
+        view_count,
+      </if>
+      <if test="linkTaskId != null" >
+        link_task_id,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="forumContent != null" >
+        forum_content,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="forumContentId != null" >
+        #{forumContentId,jdbcType=INTEGER},
+      </if>
+      <if test="forumContentTitle != null" >
+        #{forumContentTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="usrAccount != null" >
+        #{usrAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="answerCount != null" >
+        #{answerCount,jdbcType=INTEGER},
+      </if>
+      <if test="viewCount != null" >
+        #{viewCount,jdbcType=INTEGER},
+      </if>
+      <if test="linkTaskId != null" >
+        #{linkTaskId,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="forumContent != null" >
+        #{forumContent,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.chinaunicom.management.entity.ForumContent" >
+    update forum_content
+    <set >
+      <if test="forumContentTitle != null" >
+        forum_content_title = #{forumContentTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="usrAccount != null" >
+        usr_account = #{usrAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="answerCount != null" >
+        answer_count = #{answerCount,jdbcType=INTEGER},
+      </if>
+      <if test="viewCount != null" >
+        view_count = #{viewCount,jdbcType=INTEGER},
+      </if>
+      <if test="linkTaskId != null" >
+        link_task_id = #{linkTaskId,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="forumContent != null" >
+        forum_content = #{forumContent,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where forum_content_id = #{forumContentId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.chinaunicom.management.entity.ForumContent" >
+    update forum_content
+    set forum_content_title = #{forumContentTitle,jdbcType=VARCHAR},
+      usr_account = #{usrAccount,jdbcType=VARCHAR},
+      answer_count = #{answerCount,jdbcType=INTEGER},
+      view_count = #{viewCount,jdbcType=INTEGER},
+      link_task_id = #{linkTaskId,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      forum_content = #{forumContent,jdbcType=LONGVARCHAR}
+    where forum_content_id = #{forumContentId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.chinaunicom.management.entity.ForumContent" >
+    update forum_content
+    set forum_content_title = #{forumContentTitle,jdbcType=VARCHAR},
+      usr_account = #{usrAccount,jdbcType=VARCHAR},
+      answer_count = #{answerCount,jdbcType=INTEGER},
+      view_count = #{viewCount,jdbcType=INTEGER},
+      link_task_id = #{linkTaskId,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP}
+    where forum_content_id = #{forumContentId,jdbcType=INTEGER}
+  </update>
+</mapper>

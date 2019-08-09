@@ -4,6 +4,8 @@ import com.alibaba.fastjson.JSONObject;
 import com.chinaunicom.management.entity.Usr;
 import com.chinaunicom.management.entity.dto.UsrID;
 import com.chinaunicom.management.orm.UsrDao;
+import com.chinaunicom.management.entity.Usr;
+import com.chinaunicom.management.orm.UsrDao;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.UnknownAccountException;
@@ -23,6 +25,10 @@ import java.util.List;
  */
 @RestController
 public class UsrController {
+
+    @Autowired
+    private UsrDao usrDao;
+
     /**
      * @param usrName
      * @param passWord
@@ -93,4 +99,19 @@ public class UsrController {
         return jsonObject;
     }
 
+
+    @GetMapping("/login")
+    public ModelAndView login() {
+        return new ModelAndView("login");
+    }
+
+    @GetMapping("/index")
+    public ModelAndView index() {
+        return new ModelAndView("index");
+    }
+
+    @PostMapping("/getUsrByUsrAccount")
+    public Usr getUsrByUsrAccount(String usrAccount) {
+        return usrDao.selectByPrimaryKey(usrAccount);
+    }
 }
