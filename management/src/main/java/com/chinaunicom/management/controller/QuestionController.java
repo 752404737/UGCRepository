@@ -3,17 +3,22 @@ package com.chinaunicom.management.controller;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.chinaunicom.management.entity.Question;
+import com.chinaunicom.management.entity.QuestionHandle;
+import com.chinaunicom.management.entity.Usr;
 import com.chinaunicom.management.orm.QuestionDao;
-import com.chinaunicom.management.orm.UsrDao;
+import com.chinaunicom.management.orm.QuestionHandleDao;
+import com.chinaunicom.management.util.SessionUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -25,6 +30,9 @@ public class QuestionController {
 
     @Autowired
     private QuestionDao questionDao;
+
+    @Autowired
+    private QuestionHandleDao questionHandleDao;
 
     //问题总数统计
     @GetMapping("/questionNum")
@@ -40,7 +48,81 @@ public class QuestionController {
         return b;
     }
 
-    //新问题、解决问题、关闭问题14天每天统计数
+    //站内信息（新问题、解决问题、关闭问题14天每天统计数）
+    @PostMapping("/questionHandle")
+    public JSONArray questionHandle() {
+        JSONArray jsonArray = new JSONArray();
+        List a = questionHandleDao.getQuestionHandleDao();//所有数据
+        QuestionHandle questionHandle = (QuestionHandle) a.get(0);//获取第一个
+        String dateTemp = questionHandle.getDate().toString();//获取第一个的日期
+        int numNew = 0;
+        int numSlove = 0;
+        int numClose = 0;
+        QuestionHandle questionHandleTmpppp = null;
+        String dateppp = null;
+        for (int i = 0; i < a.size(); i++) {
+            JSONObject object = new JSONObject();
+            QuestionHandle questionHandleTmp = (QuestionHandle) a.get(i);//获取第i个
+            String date = questionHandleTmp.getDate().toString();//获取第i个的日期
+            if (i > 1) {
+                questionHandleTmpppp = (QuestionHandle) a.get(i - 1);//获取第i-1个
+                dateppp = questionHandleTmpppp.getDate().toString();
+            }//获取第i-1个的日期
+            if (date.equals(dateTemp) != true) {
+                object.put("日期", ((QuestionHandle) a.get(i - 1)).getDate());
+                object.put("新问题数量", numNew);
+                object.put("解决问题数量", numSlove);
+                object.put("关闭问题数量", numClose);
+                jsonArray.add(object);
+                numNew = 0;
+                numSlove = 0;
+                numClose = 0;
+                dateTemp = date;
+            }
+            if (date.equals(dateTemp) && i != (a.size() - 1)) {
+                if (questionHandleTmp.getContent().contains("新问题")) {
+                    numNew++;
+                }
+                if (questionHandleTmp.getContent().contains("解决问题")) {
+                    numSlove++;
+                }
+                if (questionHandleTmp.getContent().contains("关闭问题")) {
+                    numClose++;
+                }
+            }
+            if (!date.equals(dateppp) && i == (a.size() - 1)) {
+                JSONObject bb = new JSONObject();
+                bb.put("日期", ((QuestionHandle) a.get(i)).getDate());
+                if (questionHandleTmp.getContent().contains("新问题")) {
+                    numNew++;
+                }
+                if (questionHandleTmp.getContent().contains("解决问题")) {
+                    numSlove++;
+                }
+                if (questionHandleTmp.getContent().contains("关闭问题")) {
+                    numClose++;
+                }
+                bb.put("新问题数量", numNew);
+                bb.put("解决问题数量", numSlove);
+                bb.put("关闭问题数量", numClose);
+                jsonArray.add(bb);
+            }
+            dateTemp = date;
+        }
+        return jsonArray;
+    }
+
+    //创建问题
+    @PostMapping("/questionCreate")
+    public void questionCreate(HttpServletResponse response, @Validated Question question) {
+        Usr usr = SessionUtils.getUsrFromSession();
+        question.setWriter(usr.getUsrName());
+        int a = questionDao.getQuestionNum()+1;
+        String str = String.format("%03d", a);
+        question.setId("IP-" + str);
+        questionDao.insertQuestion(question);
+
+    }
 
     //问题类型数量统计
     @GetMapping("/questionTypeNum")

@@ -36,4 +36,26 @@
     <select id="getQuestionTodayNum" resultType="java.lang.Integer">
         select count(id) from question where TO_DAYS(date) = TO_DAYS(NOW())
     </select>
+
+    <insert id="insertQuestion" parameterType="com.chinaunicom.management.entity.Question">
+        INSERT INTO question (id,question,description,type,writer,date,state,priority,dept,pm,dev,tester,lastsaved,uptime,connect)
+VALUES
+	(
+	#{id,jdbcType=VARCHAR},
+	#{question,jdbcType=VARCHAR},
+	#{description,jdbcType=VARCHAR},
+	#{type,jdbcType=VARCHAR},
+	#{writer,jdbcType=VARCHAR},
+	DATE_FORMAT( NOW( ), '%Y-%m-%d' ),
+	'未开始',
+	#{priority,jdbcType=VARCHAR},
+	#{dept,jdbcType=VARCHAR},
+	#{pm,jdbcType=VARCHAR},
+	#{dev,jdbcType=VARCHAR},
+	#{tester,jdbcType=VARCHAR},
+	DATE_FORMAT( NOW( ), '%Y-%m-%d' ),
+	NULL,
+	#{connect,jdbcType=VARCHAR}
+	);
+    </insert>
 </mapper>

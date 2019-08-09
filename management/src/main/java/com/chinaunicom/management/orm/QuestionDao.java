@@ -14,4 +14,6 @@ public interface QuestionDao {
     int getQuestionNum();
 
     int getQuestionTodayNum();
+
+    int insertQuestion(Question question);
 }

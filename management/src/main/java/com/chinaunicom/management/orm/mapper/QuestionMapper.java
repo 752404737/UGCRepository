@@ -14,5 +14,7 @@ public interface QuestionMapper {
     int getQuestionNum();
 
     int getQuestionTodayNum();
+
+    int insertQuestion(Question question);
 }
 

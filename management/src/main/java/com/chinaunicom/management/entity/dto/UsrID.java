@@ -1,15 +1,15 @@
 package com.chinaunicom.management.entity.dto;
 
 public class UsrID {
-    String usr_accout;
+    String usr_account;
     String role_id;
 
-    public String getUsr_accout() {
-        return usr_accout;
+    public String getUsr_account() {
+        return usr_account;
     }
 
-    public void setUsr_accout(String usr_accout) {
-        this.usr_accout = usr_accout;
+    public void setUsr_account(String usr_account) {
+        this.usr_account = usr_account;
     }
 
     public String getRole_id() {

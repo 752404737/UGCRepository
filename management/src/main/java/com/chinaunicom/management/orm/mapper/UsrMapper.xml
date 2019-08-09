@@ -9,7 +9,7 @@
     </resultMap>
     <sql id="Base_Column_List">
     usr_account, usr_name, usr_password, usr_headportrait_url
-  </sql>
+    </sql>
     <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String">
         select
         <include refid="Base_Column_List"/>
@@ -19,13 +19,13 @@
     <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
     delete from usr
     where usr_account = #{usrAccount,jdbcType=VARCHAR}
-  </delete>
+    </delete>
     <insert id="insert" parameterType="com.chinaunicom.management.entity.Usr">
     insert into usr (usr_account, usr_name, usr_password, 
       usr_headportrait_url)
     values (#{usrAccount,jdbcType=VARCHAR}, #{usrName,jdbcType=VARCHAR}, #{usrPassword,jdbcType=VARCHAR}, 
       #{usrHeadportraitUrl,jdbcType=VARCHAR})
-  </insert>
+    </insert>
     <insert id="insertSelective" parameterType="com.chinaunicom.management.entity.Usr">
         insert into usr
         <trim prefix="(" suffix=")" suffixOverrides=",">
@@ -78,8 +78,8 @@
       usr_password = #{usrPassword,jdbcType=VARCHAR},
       usr_headportrait_url = #{usrHeadportraitUrl,jdbcType=VARCHAR}
     where usr_account = #{usrAccount,jdbcType=VARCHAR}
-  </update>
-    <select id="getUser" resultType="com.chinaunicom.management.entity.Usr">
-        SELECT `usr`.usr_account, `usr_role`.role_id FROM `usr` LEFT JOIN `usr_role` ON `usr`.usr_account = `usr_role`.usr_account
+    </update>
+    <select id="getUser" resultType="com.chinaunicom.management.entity.dto.UsrID">
+      SELECT `usr`.usr_account, `usr_role`.role_id FROM `usr` LEFT JOIN `usr_role` ON `usr`.usr_account = `usr_role`.usr_account
     </select>
 </mapper>

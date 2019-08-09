@@ -36,4 +36,9 @@ public class QuestionDaoImp implements QuestionDao {
     public int getQuestionTodayNum() {
         return questionMapper.getQuestionTodayNum();
     }
+
+    @Override
+    public int insertQuestion(Question question) {
+        return questionMapper.insertQuestion(question);
+    }
 }
