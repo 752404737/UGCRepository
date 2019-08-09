@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.chinaunicom.management.orm.mapper.ApplyRightProgressMapper">
+  <resultMap id="BaseResultMap" type="com.chinaunicom.management.entity.ApplyRightProgress">
+    <id column="usr_account" jdbcType="VARCHAR" property="usrAccount" />
+    <id column="apply_role_id" jdbcType="VARCHAR" property="applyRoleId" />
+    <result column="apply_role_name" jdbcType="VARCHAR" property="applyRoleName" />
+    <result column="apply_usr_account" jdbcType="VARCHAR" property="applyUsrAccount" />
+    <result column="apply_usr_name" jdbcType="VARCHAR" property="applyUsrName" />
+    <result column="apply_state_name" jdbcType="VARCHAR" property="applyStateName" />
+    <result column="apply_state" jdbcType="INTEGER" property="applyState" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    usr_account, apply_role_id, apply_role_name, apply_usr_account, apply_usr_name, apply_state_name, 
+    apply_state, create_time
+  </sql>
+  <select id="getApplyRightProgressByUsrAccount" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from apply_right_progress
+    where usr_account = #{usrAccount,jdbcType=VARCHAR}
+  </select>
+
+  <!-- 分页查询用户权限申请过程-->
+  <select id="getApplyRightProgressByUsrAccountForPage" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from apply_right_progress
+    where usr_account = #{usrAccount, jdbcType=VARCHAR}
+    limit ${(currentIndex -1)*pageSize}, #{pageSize, jdbcType=INTEGER}
+  </select>
+
+  <!-- 获取用户所拥有的权限-->
+  <select id="getApplyRightProgressByState" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from apply_right_progress
+    where usr_account = #{usrAccount, jdbcType=VARCHAR} and apply_state = #{applyState, jdbcType=INTEGER}
+    order by apply_role_id
+    limit ${(currentIndex-1)*pageSize}, #{pageSize, jdbcType=INTEGER}
+  </select>
+
+  <select id="selectByPrimaryKey" parameterType="com.chinaunicom.management.entity.ApplyRightProgressKey" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from apply_right_progress
+    where usr_account = #{usrAccount,jdbcType=VARCHAR}
+      and apply_role_id = #{applyRoleId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="com.chinaunicom.management.entity.ApplyRightProgressKey">
+    delete from apply_right_progress
+    where usr_account = #{usrAccount,jdbcType=VARCHAR}
+      and apply_role_id = #{applyRoleId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.chinaunicom.management.entity.ApplyRightProgress">
+    insert into apply_right_progress (usr_account, apply_role_id, apply_role_name, 
+      apply_usr_account, apply_usr_name, apply_state_name, 
+      apply_state, create_time)
+    values (#{usrAccount,jdbcType=VARCHAR}, #{applyRoleId,jdbcType=VARCHAR}, #{applyRoleName,jdbcType=VARCHAR}, 
+      #{applyUsrAccount,jdbcType=VARCHAR}, #{applyUsrName,jdbcType=VARCHAR}, #{applyStateName,jdbcType=VARCHAR}, 
+      #{applyState,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.chinaunicom.management.entity.ApplyRightProgress">
+    insert into apply_right_progress
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="usrAccount != null">
+        usr_account,
+      </if>
+      <if test="applyRoleId != null">
+        apply_role_id,
+      </if>
+      <if test="applyRoleName != null">
+        apply_role_name,
+      </if>
+      <if test="applyUsrAccount != null">
+        apply_usr_account,
+      </if>
+      <if test="applyUsrName != null">
+        apply_usr_name,
+      </if>
+      <if test="applyStateName != null">
+        apply_state_name,
+      </if>
+      <if test="applyState != null">
+        apply_state,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="usrAccount != null">
+        #{usrAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="applyRoleId != null">
+        #{applyRoleId,jdbcType=VARCHAR},
+      </if>
+      <if test="applyRoleName != null">
+        #{applyRoleName,jdbcType=VARCHAR},
+      </if>
+      <if test="applyUsrAccount != null">
+        #{applyUsrAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="applyUsrName != null">
+        #{applyUsrName,jdbcType=VARCHAR},
+      </if>
+      <if test="applyStateName != null">
+        #{applyStateName,jdbcType=VARCHAR},
+      </if>
+      <if test="applyState != null">
+        #{applyState,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.chinaunicom.management.entity.ApplyRightProgress">
+    update apply_right_progress
+    <set>
+      <if test="applyRoleName != null">
+        apply_role_name = #{applyRoleName,jdbcType=VARCHAR},
+      </if>
+      <if test="applyUsrAccount != null">
+        apply_usr_account = #{applyUsrAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="applyUsrName != null">
+        apply_usr_name = #{applyUsrName,jdbcType=VARCHAR},
+      </if>
+      <if test="applyStateName != null">
+        apply_state_name = #{applyStateName,jdbcType=VARCHAR},
+      </if>
+      <if test="applyState != null">
+        apply_state = #{applyState,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where usr_account = #{usrAccount,jdbcType=VARCHAR}
+      and apply_role_id = #{applyRoleId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.chinaunicom.management.entity.ApplyRightProgress">
+    update apply_right_progress
+    set apply_role_name = #{applyRoleName,jdbcType=VARCHAR},
+      apply_usr_account = #{applyUsrAccount,jdbcType=VARCHAR},
+      apply_usr_name = #{applyUsrName,jdbcType=VARCHAR},
+      apply_state_name = #{applyStateName,jdbcType=VARCHAR},
+      apply_state = #{applyState,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP}
+    where usr_account = #{usrAccount,jdbcType=VARCHAR}
+      and apply_role_id = #{applyRoleId,jdbcType=VARCHAR}
+  </update>
+</mapper>

@@ -2,7 +2,16 @@ package com.chinaunicom.management.orm.mapper;
 
 import com.chinaunicom.management.entity.Role;
 
+import java.util.List;
+
 public interface RoleMapper {
+
+    /**
+     * 获取所有角色
+     * @return
+     */
+    List<Role> getAllRole();
+
     int deleteByPrimaryKey(String roleId);
 
     int insert(Role record);

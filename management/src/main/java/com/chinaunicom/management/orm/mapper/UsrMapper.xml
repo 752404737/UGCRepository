@@ -16,6 +16,15 @@
     from usr
     where usr_account = #{usrAccount,jdbcType=VARCHAR}
   </select>
+  <select id="selectByPrimaryKeyList" resultMap="BaseResultMap" >
+    select 
+    <include refid="Base_Column_List"/>
+    from usr
+    where usr_account in 
+    <foreach collection="usrAccountList" item="usrAccount" open="(" close=")" separator=",">
+      #{usrAccount}
+    </foreach>
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
     delete from usr
     where usr_account = #{usrAccount,jdbcType=VARCHAR}

@@ -16,6 +16,13 @@
     where usr_account = #{usrAccount, jdbcType=VARCHAR}
   </select>
 
+  <select id="getUsrAccountByRoleId" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
+    from usr_role
+    where role_id = #{roleId, jdbcType=VARCHAR}
+  </select>
+
   <delete id="deleteByPrimaryKey" parameterType="com.chinaunicom.management.entity.UsrRoleKey" >
     delete from usr_role
     where usr_account = #{usrAccount,jdbcType=VARCHAR}

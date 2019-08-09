@@ -5,6 +5,7 @@ import com.chinaunicom.management.orm.mapper.UsrMapper;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * @Author: WAI CHAN
@@ -18,5 +19,10 @@ public class UsrDaoImpl implements UsrDao {
     @Override
     public Usr selectByPrimaryKey(String usrAccount) {
         return usrMapper.selectByPrimaryKey(usrAccount);
+    }
+
+    @Override
+    public List<Usr> selectByPrimaryKeyList(List<String> usrAccountList) {
+        return usrMapper.selectByPrimaryKeyList(usrAccountList);
     }
 }
