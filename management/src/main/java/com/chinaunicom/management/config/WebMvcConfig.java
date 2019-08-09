@@ -1,6 +1,7 @@
 package com.chinaunicom.management.config;
 
 import com.chinaunicom.management.interceptor.HelloWorldInterceptor;
+import com.chinaunicom.management.interceptor.SessionInterceptor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
@@ -18,6 +19,10 @@ public class WebMvcConfig implements WebMvcConfigurer {
         registry.addInterceptor(new HelloWorldInterceptor())
                 .addPathPatterns("/**")
                 .excludePathPatterns("/helloWorldString");
+        registry.addInterceptor(new SessionInterceptor())
+                .addPathPatterns("/**")
+                .excludePathPatterns("/doLogin")
+                .excludePathPatterns("/login");
     }
 
     /**

@@ -1,10 +1,14 @@
 package com.chinaunicom.management.controller;
 
+import com.chinaunicom.management.entity.Usr;
+import com.chinaunicom.management.orm.UsrDao;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
@@ -15,6 +19,10 @@ import org.springframework.web.servlet.ModelAndView;
  */
 @RestController
 public class UsrController {
+
+    @Autowired
+    private UsrDao usrDao;
+
     /**
      * @param usrName
      * @param passWord
@@ -47,5 +55,20 @@ public class UsrController {
             mv.setViewName("index");
         }
         return mv;
+    }
+
+    @GetMapping("/login")
+    public ModelAndView login() {
+        return new ModelAndView("login");
+    }
+
+    @GetMapping("/index")
+    public ModelAndView index() {
+        return new ModelAndView("index");
+    }
+
+    @PostMapping("/getUsrByUsrAccount")
+    public Usr getUsrByUsrAccount(String usrAccount) {
+        return usrDao.selectByPrimaryKey(usrAccount);
     }
 }
