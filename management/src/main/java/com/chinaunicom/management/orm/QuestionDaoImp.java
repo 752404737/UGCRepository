@@ -1,6 +1,7 @@
 package com.chinaunicom.management.orm;
 
 import com.chinaunicom.management.entity.Question;
+import com.chinaunicom.management.entity.QuestionComment;
 import com.chinaunicom.management.orm.mapper.QuestionMapper;
 import org.springframework.stereotype.Service;
 
@@ -40,5 +41,10 @@ public class QuestionDaoImp implements QuestionDao {
     @Override
     public int insertQuestion(Question question) {
         return questionMapper.insertQuestion(question);
+    }
+
+    @Override
+    public List<QuestionComment> getQuestionComment() {
+        return questionMapper.getQuestionComment();
     }
 }

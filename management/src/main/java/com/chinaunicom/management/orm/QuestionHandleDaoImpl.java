@@ -1,6 +1,7 @@
 package com.chinaunicom.management.orm;
 
 import com.chinaunicom.management.entity.QuestionHandle;
+import com.chinaunicom.management.entity.dto.QuestionHandleImg;
 import com.chinaunicom.management.orm.mapper.QuestionHandleMapper;
 import org.springframework.stereotype.Service;
 
@@ -16,5 +17,10 @@ public class QuestionHandleDaoImpl implements QuestionHandleDao {
     @Override
     public List<QuestionHandle> getQuestionHandleDao() {
         return questionHandleMapper.getQuestionHandle();
+    }
+
+    @Override
+    public List<QuestionHandleImg> getQuestionProcess() {
+        return questionHandleMapper.getQuestionProcess();
     }
 }

@@ -3,8 +3,10 @@ package com.chinaunicom.management.controller;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.chinaunicom.management.entity.Question;
+import com.chinaunicom.management.entity.QuestionComment;
 import com.chinaunicom.management.entity.QuestionHandle;
 import com.chinaunicom.management.entity.Usr;
+import com.chinaunicom.management.entity.dto.QuestionHandleImg;
 import com.chinaunicom.management.orm.QuestionDao;
 import com.chinaunicom.management.orm.QuestionHandleDao;
 import com.chinaunicom.management.util.SessionUtils;
@@ -80,26 +82,26 @@ public class QuestionController {
                 dateTemp = date;
             }
             if (date.equals(dateTemp) && i != (a.size() - 1)) {
-                if (questionHandleTmp.getContent().contains("新问题")) {
+                if (questionHandleTmp.getType().contains("新问题")) {
                     numNew++;
                 }
-                if (questionHandleTmp.getContent().contains("解决问题")) {
+                if (questionHandleTmp.getType().contains("解决问题")) {
                     numSlove++;
                 }
-                if (questionHandleTmp.getContent().contains("关闭问题")) {
+                if (questionHandleTmp.getType().contains("关闭问题")) {
                     numClose++;
                 }
             }
             if (!date.equals(dateppp) && i == (a.size() - 1)) {
                 JSONObject bb = new JSONObject();
                 bb.put("日期", ((QuestionHandle) a.get(i)).getDate());
-                if (questionHandleTmp.getContent().contains("新问题")) {
+                if (questionHandleTmp.getType().contains("新问题")) {
                     numNew++;
                 }
-                if (questionHandleTmp.getContent().contains("解决问题")) {
+                if (questionHandleTmp.getType().contains("解决问题")) {
                     numSlove++;
                 }
-                if (questionHandleTmp.getContent().contains("关闭问题")) {
+                if (questionHandleTmp.getType().contains("关闭问题")) {
                     numClose++;
                 }
                 bb.put("新问题数量", numNew);
@@ -112,16 +114,51 @@ public class QuestionController {
         return jsonArray;
     }
 
+    //问题评论
+    @PostMapping("/questionComment")
+    public JSONArray questionComment() {
+        JSONArray jsonArray = new JSONArray();
+        List list = questionDao.getQuestionComment();
+        for (int i = 0; i < list.size(); i++) {
+            JSONObject jsonObject = new JSONObject();
+            QuestionComment questionComment = (QuestionComment) list.get(i);
+            jsonObject.put("name", questionComment.getUsr_name());
+            jsonObject.put("avatar", questionComment.getUsr_headportrait_url());
+            jsonObject.put("date", questionComment.getDate());
+            jsonObject.put("content", questionComment.getContent());
+            jsonObject.put("task", questionComment.getQuestion());
+            jsonArray.add(jsonObject);
+        }
+        return jsonArray;
+    }
+
+    //操作记录进程
+    @PostMapping("/questionProcess")
+    public JSONArray questionProcess() {
+        JSONArray jsonArray = new JSONArray();
+        List list = questionHandleDao.getQuestionProcess();
+        for (int i = 0; i < list.size(); i++) {
+            JSONObject jsonObject = new JSONObject();
+            QuestionHandleImg questionHandleImg = (QuestionHandleImg) list.get(i);
+            jsonObject.put("date", questionHandleImg.getDate());
+            jsonObject.put("name", questionHandleImg.getUsr_name());
+            jsonObject.put("opt", questionHandleImg.getType());
+            jsonObject.put("task", questionHandleImg.getId());
+            jsonObject.put("avatar", questionHandleImg.getUsr_headportrait_url());
+            jsonArray.add(jsonObject);
+        }
+        return jsonArray;
+    }
+
     //创建问题
     @PostMapping("/questionCreate")
     public void questionCreate(HttpServletResponse response, @Validated Question question) {
         Usr usr = SessionUtils.getUsrFromSession();
         question.setWriter(usr.getUsrName());
-        int a = questionDao.getQuestionNum()+1;
+        int a = questionDao.getQuestionNum() + 1;
         String str = String.format("%03d", a);
         question.setId("IP-" + str);
         questionDao.insertQuestion(question);
-
     }
 
     //问题类型数量统计

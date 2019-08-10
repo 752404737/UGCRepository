@@ -1,6 +1,7 @@
 package com.chinaunicom.management.orm.mapper;
 
 import com.chinaunicom.management.entity.Question;
+import com.chinaunicom.management.entity.QuestionComment;
 
 import java.util.List;
 
@@ -16,5 +17,7 @@ public interface QuestionMapper {
     int getQuestionTodayNum();
 
     int insertQuestion(Question question);
+
+    List<QuestionComment> getQuestionComment();
 }
 

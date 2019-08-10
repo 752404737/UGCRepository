@@ -18,6 +18,25 @@
     </select>-->
 
     <select id="getQuestionHandle" resultType="com.chinaunicom.management.entity.QuestionHandle">
-        select * from questionHandle;
+        select * from question_handle WHERE type='新问题' or type='解决问题' or type='关闭问题' ORDER BY date;
+    </select>
+
+    <select id="getQuestionProcess" resultType="com.chinaunicom.management.entity.dto.QuestionHandleImg">
+SELECT
+	`question_handle`.date,
+	`question_handle`.type,
+	`usr`.usr_headportrait_url,
+	`usr`.usr_name,
+	`question`.id
+FROM
+	`usr`
+	LEFT JOIN `question_handle` ON `question_handle`.usr_account = `usr`.usr_account
+	LEFT JOIN `question` ON `question_handle`.questionid = `question`.id
+WHERE
+	`question_handle`.type != '新问题'
+	AND `question_handle`.type != '解决问题'
+	AND `question_handle`.type != '关闭问题'
+ORDER BY
+	date
     </select>
 </mapper>

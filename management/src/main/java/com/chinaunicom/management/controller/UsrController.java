@@ -35,9 +35,6 @@ public class UsrController {
      * @return
      */
 
-    @Autowired
-    private UsrDao usrDao;
-
     @PostMapping("/doLogin")
     public ModelAndView doLogin(String usrName, String passWord) {
         // 从SecurityUtils里边创建一个 subject

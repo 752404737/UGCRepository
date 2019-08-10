@@ -5,8 +5,7 @@ import java.util.Date;
 public class QuestionHandle {
     int id;
     String usr_account;
-    String content;
-    String question;
+    String type;
     String questionid;
     Date date;
 
@@ -26,20 +25,12 @@ public class QuestionHandle {
         this.usr_account = usr_account;
     }
 
-    public String getContent() {
-        return content;
+    public String getType() {
+        return type;
     }
 
-    public void setContent(String content) {
-        this.content = content;
-    }
-
-    public String getQuestion() {
-        return question;
-    }
-
-    public void setQuestion(String question) {
-        this.question = question;
+    public void setType(String type) {
+        this.type = type;
     }
 
     public String getQuestionid() {

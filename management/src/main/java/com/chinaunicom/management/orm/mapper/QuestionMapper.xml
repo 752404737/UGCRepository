@@ -58,4 +58,18 @@ VALUES
 	#{connect,jdbcType=VARCHAR}
 	);
     </insert>
+    <select id="getQuestionComment" resultType="com.chinaunicom.management.entity.QuestionComment">
+SELECT
+	`usr`.usr_headportrait_url,
+	`usr`.usr_name,
+	`question_comment`.date,
+	`question_comment`.content,
+	`question`.question
+FROM
+	`question_comment`
+	LEFT JOIN `usr` ON `question_comment`.usr_account = `usr`.usr_account
+	LEFT JOIN `question` ON `question_comment`.questionid = `question`.id
+ORDER BY
+	date
+    </select>
 </mapper>
