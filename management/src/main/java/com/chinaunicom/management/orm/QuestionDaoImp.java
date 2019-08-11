@@ -19,6 +19,11 @@ public class QuestionDaoImp implements QuestionDao {
     }
 
     @Override
+    public List<Question> getQuestionRd() {
+        return questionMapper.getQuestionRd();
+    }
+
+    @Override
     public List<Question> getQuestionUptime() {
         return questionMapper.getQuestionUptime();
     }
@@ -44,7 +49,27 @@ public class QuestionDaoImp implements QuestionDao {
     }
 
     @Override
+    public int questionUpdate(Question question) {
+        return questionMapper.questionUpdate(question);
+    }
+
+    @Override
     public List<QuestionComment> getQuestionComment() {
         return questionMapper.getQuestionComment();
+    }
+
+    @Override
+    public Question getQuestionDatils(String questionDetailId) {
+        return questionMapper.getQuestionDetails(questionDetailId);
+    }
+
+    @Override
+    public int insertQuestionComment(String content, String usr_account, String questionid) {
+        return questionMapper.insertQuestionComment(content, usr_account, questionid);
+    }
+
+    @Override
+    public int questionStateUpdate(String state, String id) {
+        return questionMapper.questionStateUpdate(state, id);
     }
 }

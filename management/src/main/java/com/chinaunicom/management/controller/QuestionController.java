@@ -2,13 +2,12 @@ package com.chinaunicom.management.controller;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.chinaunicom.management.entity.Question;
-import com.chinaunicom.management.entity.QuestionComment;
-import com.chinaunicom.management.entity.QuestionHandle;
-import com.chinaunicom.management.entity.Usr;
+import com.chinaunicom.management.entity.*;
 import com.chinaunicom.management.entity.dto.QuestionHandleImg;
 import com.chinaunicom.management.orm.QuestionDao;
 import com.chinaunicom.management.orm.QuestionHandleDao;
+import com.chinaunicom.management.orm.UsrRoleDao;
+import com.chinaunicom.management.orm.mapper.UsrRoleMapper;
 import com.chinaunicom.management.util.SessionUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -30,11 +29,16 @@ import java.util.List;
 public class QuestionController {
     private static Logger logger = LogManager.getLogger(QuestionController.class);
 
+
     @Autowired
     private QuestionDao questionDao;
 
     @Autowired
     private QuestionHandleDao questionHandleDao;
+
+    @Autowired
+    private UsrRoleDao usrRoleDao;
+
 
     //问题总数统计
     @GetMapping("/questionNum")
@@ -152,13 +156,127 @@ public class QuestionController {
 
     //创建问题
     @PostMapping("/questionCreate")
-    public void questionCreate(HttpServletResponse response, @Validated Question question) {
+    public void questionCreate(@Validated Question question) {
         Usr usr = SessionUtils.getUsrFromSession();
         question.setWriter(usr.getUsrName());
         int a = questionDao.getQuestionNum() + 1;
         String str = String.format("%03d", a);
         question.setId("IP-" + str);
         questionDao.insertQuestion(question);
+    }
+
+    //问题详情
+    @PostMapping("/questionDetails")
+    public JSONObject questionDetails(HttpServletRequest request, Model model) throws ParseException {
+        Usr usr = SessionUtils.getUsrFromSession();
+        String questionDetailId = request.getParameter("questionDetailId");
+        Question question = questionDao.getQuestionDatils(questionDetailId);
+        JSONObject jsonObject = new JSONObject();
+        List list = usrRoleDao.getRoleIdByUsrAccount(usr.getUsrAccount());
+        for (int i = 0; i < list.size(); i++) {
+            UsrRoleKey usrRoleKey = (UsrRoleKey) list.get(i);
+            if (usrRoleKey.getRoleId().equals("pm")) {
+                jsonObject.put("关闭任务", true);
+                jsonObject.put("编辑任务", true);
+                jsonObject.put("开始项目", true);
+                jsonObject.put("规划完成", true);
+                jsonObject.put("开始验收", true);
+                jsonObject.put("验收完成", true);
+                jsonObject.put("项目已上线", true);
+                jsonObject.put("线上测试通过", true);
+            }
+            if (usrRoleKey.getRoleId().equals("rd")) {
+                jsonObject.put("开始开发", true);
+                jsonObject.put("开发完成", true);
+            }
+            if (usrRoleKey.getRoleId().equals("test")) {
+                jsonObject.put("开始开发", true);
+                jsonObject.put("开发完成", true);
+            }
+        }
+        jsonObject.put("链接任务", true);
+        jsonObject.put("type", question.getType());
+        jsonObject.put("state", question.getState());
+        jsonObject.put("Priority", question.getPriority());
+        if (question.getState().equals("已解决")) {
+            jsonObject.put("result", "已解决");
+        } else {
+            jsonObject.put("result", "未解决");
+        }
+        jsonObject.put("description", question.getDescription());
+        jsonObject.put("connect", question.getConnect());
+        jsonObject.put("pm", question.getPm());
+        jsonObject.put("dev", question.getDev());
+        jsonObject.put("tester", question.getTester());
+        jsonObject.put("date", question.getDate());
+        jsonObject.put("lastsaved", question.getLastsaved());
+        return jsonObject;
+    }
+
+    //问题编辑
+    @PostMapping("/questionEdit")
+    public void questionEdit(HttpServletRequest request, @Validated Question question) {
+        String questionDetailId = request.getParameter("id");
+        question.setId(questionDetailId);
+        questionDao.questionUpdate(question);
+    }
+
+    //问题状态变更
+    @PostMapping("/questionStateChange")
+    public void questionStateChange(HttpServletRequest request) {
+
+        String string = request.getParameter("state");
+        String state = null;
+        switch (string) {
+            case "开始项目":
+                state = "项目规划中";
+                break;
+            case "规划完成":
+                state = "待研发";
+                break;
+            case "开始开发":
+                state = "研发中";
+                break;
+            case "开发完成":
+                state = "待验收";
+                break;
+            case "开始验收":
+                state = "验收中";
+                break;
+            case "验收完成":
+                state = "待测试";
+                break;
+            case "开始测试":
+                state = "测试中";
+                break;
+            case "测试完成":
+                state = "等待上线中";
+                break;
+            case "项目已上线":
+                state = "线上测试中";
+                break;
+            case "线上测试通过":
+                state = "已完成";
+                break;
+            case "关闭任务":
+                state = "已关闭";
+                break;
+            default:
+                break;
+        }
+        String id = request.getParameter("id");
+        questionDao.questionStateUpdate(state, id);
+    }
+
+    //问题评论
+    @PostMapping("/questionNewComment")
+    public void questionNewComment(HttpServletRequest request) {
+        Usr usr = SessionUtils.getUsrFromSession();
+        String content = request.getParameter("comment");
+        String usr_account = usr.getUsrAccount();
+        String questionid = request.getParameter("questionId");
+        questionDao.insertQuestionComment(content, usr_account, questionid);
+
     }
 
     //问题类型数量统计
@@ -259,6 +377,25 @@ public class QuestionController {
         object.put("测试中", ceshizhongNum);
         object.put("等待上线", dengdaishangxianNum);
         return object;
+    }
+
+    //研发工作面板中心
+    @PostMapping("/rdCenter")
+    public JSONArray rdCenter() {
+        JSONArray jsonArray = new JSONArray();
+        List a = questionDao.getQuestionRd();
+        for (int i = 0; i < a.size(); i++) {
+            JSONObject object = new JSONObject();
+            Question question = (Question) a.get(i);
+            object.put("状态", question.getState());
+            object.put("编号", question.getId());
+            object.put("名称", question.getQuestion());
+            object.put("优先级", question.getPriority());
+//            object.put("测试人员", question.getTester());
+//            object.put("产品经理", question.getPm());
+            jsonArray.add(object);
+        }
+        return jsonArray;
     }
 
     //等待上线具体事项筛选
