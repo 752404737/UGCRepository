@@ -11,7 +11,7 @@
  Target Server Version : 50727
  File Encoding         : 65001
 
- Date: 10/08/2019 15:35:33
+ Date: 11/08/2019 17:49:58
 */
 
 SET NAMES utf8mb4;
@@ -43,21 +43,20 @@ CREATE TABLE `question`  (
 -- ----------------------------
 -- Records of question
 -- ----------------------------
-INSERT INTO `question` VALUES ('IP-001', '移动端ios修改', '修改', '移动端ios问题', '苏宸', '2019-07-11', '开发中', '中', '研发部', '陈伟', '陈伟', '陈伟', NULL, NULL, NULL);
-INSERT INTO `question` VALUES ('IP-002', '移动端ios修改', '修改', '移动端ios问题', '苏宸', '2019-07-12', '项目规划中', '中', '研发部', '陈伟', '陈伟', '陈伟', NULL, NULL, NULL);
-INSERT INTO `question` VALUES ('IP-003', '移动端ios修改', '修改', '移动端ios问题', '苏宸', '2019-07-13', '待开发', '中', '研发部', '陈伟', '陈伟', '陈伟', NULL, NULL, NULL);
-INSERT INTO `question` VALUES ('IP-004', '移动端ios修改', '修改', '移动端ios问题', '苏宸', '2019-07-14', '待验收', '中', '研发部', '陈伟', '陈伟', '陈伟', NULL, NULL, NULL);
-INSERT INTO `question` VALUES ('IP-005', '移动端ios修改', '修改', '移动端ios问题', '苏宸', '2019-07-15', '等待测试', '中', '研发部', '陈伟', '陈伟', '陈伟', NULL, NULL, NULL);
-INSERT INTO `question` VALUES ('IP-006', '移动端ios修改', '修改', '移动端ios问题', '苏宸', '2019-07-16', '线上测试中', '中', '研发部', '陈伟', '陈伟', '陈伟', NULL, NULL, NULL);
-INSERT INTO `question` VALUES ('IP-007', '移动端ios修改', '修改', '移动端ios问题', '陈伟', '2019-07-17', '开发中', '低', '研发部', '陈伟', '陈伟', '陈伟', NULL, NULL, NULL);
-INSERT INTO `question` VALUES ('IP-008', '项目重构', '修改', '移动端ios问题', '苏宸', '2019-07-18', '待开发', '高', '研发部', '陈伟', '陈伟', '陈伟', NULL, NULL, NULL);
-INSERT INTO `question` VALUES ('IP-009', '安卓端测试', '修改', '移动端安卓问题', '杭杭', '2019-07-19', '测试中', '中', '研发部', '陈伟', '陈伟', '陈伟', NULL, NULL, NULL);
-INSERT INTO `question` VALUES ('IP-010', '安卓代码验收', '修改', '移动端安卓问题', '凯特', '2019-07-20', '等待上线', '高', '研发部', '陈伟', '陈伟', '陈伟', NULL, '2019-08-26', NULL);
-INSERT INTO `question` VALUES ('IP-011', 'IOS代码验收', '修改', '移动端安卓问题', '凯特', '2019-07-21', '等待上线', '高', '研发部', '陈伟', '陈伟', '陈伟', NULL, '2019-08-26', NULL);
-INSERT INTO `question` VALUES ('IP-012', '安卓代码验收', '修改', '移动端安卓问题', '凯特', '2019-07-22', '等待上线', '高', '研发部', '陈伟', '陈伟', '陈伟', NULL, '2019-08-26', NULL);
-INSERT INTO `question` VALUES ('IP-013', 'hadoop环境bug修复', '修改', '大数据研发问题', '子威', '2019-07-23', '开发中', '高', '研发部', '陈伟', '陈伟', '陈伟', NULL, NULL, NULL);
-INSERT INTO `question` VALUES ('IP-014', '物联网平台开发', '修改', '物联网研发问题', '冉彤', '2019-07-24', '等待上线', '低', '研发部', '陈伟', '陈伟', '陈伟', NULL, '2019-08-30', NULL);
-INSERT INTO `question` VALUES ('IP-015', '移动端ios重构', '修改', '移动端ios问题', '佳美', '2019-07-25', '已完成', '中', '研发部', '陈伟', '陈伟', '陈伟', NULL, '2019-08-30', NULL);
-INSERT INTO `question` VALUES ('IP-016', '移动端ios修改', '修改', '移动端ios问题', '苏宸', '2019-07-26', '未开始', '中', '研发部', '陈伟', '陈伟', '陈伟', NULL, NULL, NULL);
+INSERT INTO `question` VALUES ('IP-001', '移动端ios代码修改', '代码修改', '移动端ios问题', '苏宸', '2019-07-11', '研发中', '中', '研发部', '陈伟', '陈伟', '陈伟', NULL, NULL, NULL);
+INSERT INTO `question` VALUES ('IP-002', '移动端ios接口修改', '代码修改', '移动端ios问题', '苏宸', '2019-07-12', '项目规划中', '中', '研发部', '陈伟', '陈伟', '陈伟', NULL, NULL, NULL);
+INSERT INTO `question` VALUES ('IP-003', '移动端ios配置修改', '代码修改', '移动端ios问题', '苏宸', '2019-07-13', '待开发', '中', '研发部', '陈伟', '陈伟', '陈伟', NULL, NULL, NULL);
+INSERT INTO `question` VALUES ('IP-004', '移动端ios重构', '代码修改', '移动端ios问题', '苏宸', '2019-07-14', '待验收', '中', '研发部', '陈伟', '陈伟', '陈伟', NULL, NULL, NULL);
+INSERT INTO `question` VALUES ('IP-005', '移动端ios代码优化', '代码修改', '移动端ios问题', '苏宸', '2019-07-15', '等待测试', '中', '研发部', '陈伟', '陈伟', '陈伟', NULL, NULL, NULL);
+INSERT INTO `question` VALUES ('IP-006', '移动端ios框架配置', '代码修改', '移动端ios问题', '苏宸', '2019-07-16', '线上测试中', '中', '研发部', '陈伟', '陈伟', '陈伟', NULL, NULL, NULL);
+INSERT INTO `question` VALUES ('IP-007', '移动端ios修改', '代码修改', '移动端ios问题', '陈伟', '2019-07-17', '开发中', '低', '研发部', '陈伟', '陈伟', '陈伟', NULL, NULL, NULL);
+INSERT INTO `question` VALUES ('IP-008', '项目重构', '代码修改', '移动端ios问题', '苏宸', '2019-07-18', '待开发', '高', '研发部', '陈伟', '陈伟', '陈伟', NULL, NULL, NULL);
+INSERT INTO `question` VALUES ('IP-009', '安卓端测试', '代码修改', '移动端安卓问题', '杭杭', '2019-07-19', '测试中', '中', '研发部', '陈伟', '陈伟', '陈伟', NULL, NULL, NULL);
+INSERT INTO `question` VALUES ('IP-010', '安卓代码验收', '代码修改', '移动端安卓问题', '凯特', '2019-07-20', '等待上线', '高', '研发部', '陈伟', '陈伟', '陈伟', NULL, '2019-08-26', NULL);
+INSERT INTO `question` VALUES ('IP-011', 'IOS代码验收', '代码修改', '移动端安卓问题', '凯特', '2019-07-21', '等待上线', '高', '研发部', '陈伟', '陈伟', '陈伟', NULL, '2019-08-26', NULL);
+INSERT INTO `question` VALUES ('IP-012', '安卓代码验收', '代码修改', '移动端安卓问题', '凯特', '2019-07-22', '等待上线', '高', '研发部', '陈伟', '陈伟', '陈伟', NULL, '2019-08-26', NULL);
+INSERT INTO `question` VALUES ('IP-013', 'hadoop环境bug修复', '代码修改', '大数据研发问题', '子威', '2019-07-23', '开发中', '高', '研发部', '陈伟', '陈伟', '陈伟', NULL, NULL, NULL);
+INSERT INTO `question` VALUES ('IP-014', '物联网平台开发', '代码修改', '物联网研发问题', '冉彤', '2019-07-24', '等待上线', '低', '研发部', '陈伟', '陈伟', '陈伟', NULL, '2019-08-30', NULL);
+INSERT INTO `question` VALUES ('IP-015', '移动端ios重构', '代码修改', '移动端ios问题', '佳美', '2019-07-25', '已完成', '中', '研发部', '陈伟', '陈伟', '陈伟', NULL, '2019-08-30', NULL);
 
 SET FOREIGN_KEY_CHECKS = 1;

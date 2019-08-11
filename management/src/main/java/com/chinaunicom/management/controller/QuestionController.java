@@ -1,5 +1,5 @@
 package com.chinaunicom.management.controller;
-
+//1
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.chinaunicom.management.entity.*;
@@ -7,7 +7,6 @@ import com.chinaunicom.management.entity.dto.QuestionHandleImg;
 import com.chinaunicom.management.orm.QuestionDao;
 import com.chinaunicom.management.orm.QuestionHandleDao;
 import com.chinaunicom.management.orm.UsrRoleDao;
-import com.chinaunicom.management.orm.mapper.UsrRoleMapper;
 import com.chinaunicom.management.util.SessionUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -19,7 +18,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;

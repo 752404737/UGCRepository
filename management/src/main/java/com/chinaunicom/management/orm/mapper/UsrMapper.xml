@@ -26,16 +26,8 @@
     </foreach>
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
-    </sql>
-    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String">
-        select
-        <include refid="Base_Column_List"/>
-        from usr
-        where usr_account = #{usrAccount,jdbcType=VARCHAR}
-    </select>
-    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
-    delete from usr
-    where usr_account = #{usrAccount,jdbcType=VARCHAR}
+      delete from usr
+      where usr_account=#{usrAccount,jdbcType=VARCHAR}
     </delete>
     <insert id="insert" parameterType="com.chinaunicom.management.entity.Usr">
     insert into usr (usr_account, usr_name, usr_password, 
