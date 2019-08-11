@@ -26,4 +26,9 @@ public class UsrDaoImpl implements UsrDao {
     public List<UsrID> getUser() {
         return usrMapper.getUser();
     }
+
+    @Override
+    public List<Usr> selectByPrimaryKeyList(List<String> usrAccountList) {
+        return usrMapper.selectByPrimaryKeyList(usrAccountList);
+    }
 }

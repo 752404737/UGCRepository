@@ -12,5 +12,8 @@ import java.util.List;
 public interface UsrDao {
     // 根据usrAccount获取用户对象
     Usr selectByPrimaryKey(String usrAccount);
+
+    // 批量查询用户
+    List<Usr> selectByPrimaryKeyList(List<String> usrAccountList);
     List<UsrID> getUser();
 }

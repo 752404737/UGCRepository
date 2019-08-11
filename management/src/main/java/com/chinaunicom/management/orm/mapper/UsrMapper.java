@@ -2,6 +2,7 @@ package com.chinaunicom.management.orm.mapper;
 
 import com.chinaunicom.management.entity.Usr;
 import com.chinaunicom.management.entity.dto.UsrID;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -14,6 +15,9 @@ public interface UsrMapper {
 
     // 根据usrAccount获取用户对象
     Usr selectByPrimaryKey(String usrAccount);
+
+    // 批量查询用户
+    List<Usr> selectByPrimaryKeyList(@Param("usrAccountList") List<String> usrAccountList);
 
     int updateByPrimaryKeySelective(Usr record);
 

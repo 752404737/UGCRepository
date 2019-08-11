@@ -21,4 +21,16 @@ public class UsrRoleDaoImpl implements UsrRoleDao {
     public List<UsrRoleKey> getRoleIdByUsrAccount(String usrAccount) {
         return usrRoleMapper.getRoleIdByUsrAccount(usrAccount);
     }
+
+    @Override
+    public List<UsrRoleKey> getUsrAccountByRoleId(String roleId) {
+        return usrRoleMapper.getUsrAccountByRoleId(roleId);
+    }
+
+    @Override
+    public int deleteByPrimaryKey(UsrRoleKey key) {
+        return usrRoleMapper.deleteByPrimaryKey(key);
+    }
+
+
 }
