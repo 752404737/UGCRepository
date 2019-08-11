@@ -1,7 +1,11 @@
 package com.chinaunicom.management.controller;
 
+import com.alibaba.fastjson.JSONObject;
 import com.chinaunicom.management.entity.Usr;
+import com.chinaunicom.management.entity.UsrRoleKey;
 import com.chinaunicom.management.orm.UsrDao;
+import com.chinaunicom.management.orm.UsrRoleDao;
+import com.chinaunicom.management.util.HttpUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.UnknownAccountException;
@@ -13,6 +17,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletResponse;
+import java.util.List;
+
 /**
  * @Author: WAI CHAN
  * @Date: 19-8-4 下午2:34
@@ -23,12 +30,15 @@ public class UsrController {
     @Autowired
     private UsrDao usrDao;
 
+    @Autowired
+    private UsrRoleDao usrRoleDao;
+
     /**
      * @param usrName
      * @param passWord
      * @return
      */
-    @PostMapping("/doLogin")
+    /*@PostMapping("/doLogin")
     public ModelAndView doLogin(String usrName, String passWord) {
         // 从SecurityUtils里边创建一个 subject
         Subject subject = SecurityUtils.getSubject();
@@ -55,6 +65,47 @@ public class UsrController {
             mv.setViewName("index");
         }
         return mv;
+    }*/
+
+    /**
+     * @param usrName
+     * @param passWord
+     * @return
+     */
+    @PostMapping("/doLogin")
+    public void doLogin(HttpServletResponse response, String usrName, String passWord) {
+        // 从SecurityUtils里边创建一个 subject
+        Subject subject = SecurityUtils.getSubject();
+        // 在认证提交前准备 token令牌
+        UsernamePasswordToken token = new UsernamePasswordToken(usrName, passWord);
+
+        JSONObject obj = new JSONObject();
+        try {
+            subject.login(token);
+        } catch (UnknownAccountException e) {
+            obj.put("msg", "未知账户!");
+            obj.put("isSuccess", false);
+            HttpUtils.printJsonToResponse(response, obj);
+            return;
+        } catch (AuthenticationException e) {
+            obj.put("msg", "用户名或者密码不正确!");
+            obj.put("isSuccess", false);
+            HttpUtils.printJsonToResponse(response, obj);
+            return;
+        }
+        if (subject.isAuthenticated()) {
+            List<UsrRoleKey> usrRoleKeyList = usrRoleDao.getRoleIdByUsrAccount(usrName);
+            obj.put("msg", "登录成功!");
+            obj.put("isSuccess", true);
+            obj.put("roleId", usrRoleKeyList.get(0).getRoleId());
+            HttpUtils.printJsonToResponse(response, obj);
+            return;
+        } else {
+            obj.put("msg", "登录失败!");
+            obj.put("isSuccess", false);
+            HttpUtils.printJsonToResponse(response, obj);
+            return;
+        }
     }
 
     @GetMapping("/login")
