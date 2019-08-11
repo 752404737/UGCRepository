@@ -84,7 +84,10 @@ public class HelloWorldController {
         HttpUtils.printJsonToResponse(response, result);
     }
 
-
+    @GetMapping("/indexHello")
+    public ModelAndView indexHello() {
+        return new ModelAndView("index");
+    }
 
     @RequiresRoles("admin")
     @PostMapping("/helloAdmin")

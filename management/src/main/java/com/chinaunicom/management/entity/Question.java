@@ -1,10 +1,13 @@
 package com.chinaunicom.management.entity;
 
+import javax.validation.constraints.NotNull;
 import java.util.Date;
 
 public class Question {
-    int id;
+    String id;
+
     String question;
+
     String description;
     String type;
     String writer;
@@ -17,6 +20,7 @@ public class Question {
     String tester;
     Date lastsaved;
     Date uptime;
+    String connect;
 
     public String getState() {
         return state;
@@ -34,11 +38,11 @@ public class Question {
         this.priority = priority;
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -128,5 +132,13 @@ public class Question {
 
     public void setLastsaved(Date lastsaved) {
         this.lastsaved = lastsaved;
+    }
+
+    public String getConnect() {
+        return connect;
+    }
+
+    public void setConnect(String connect) {
+        this.connect = connect;
     }
 }

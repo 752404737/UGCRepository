@@ -1,6 +1,7 @@
 package com.chinaunicom.management.orm;
 
 import com.chinaunicom.management.entity.Usr;
+import com.chinaunicom.management.entity.dto.UsrID;
 
 import java.util.List;
 
@@ -14,4 +15,5 @@ public interface UsrDao {
 
     // 批量查询用户
     List<Usr> selectByPrimaryKeyList(List<String> usrAccountList);
+    List<UsrID> getUser();
 }

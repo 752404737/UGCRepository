@@ -1,6 +1,7 @@
 package com.chinaunicom.management.orm;
 
 import com.chinaunicom.management.entity.Usr;
+import com.chinaunicom.management.entity.dto.UsrID;
 import com.chinaunicom.management.orm.mapper.UsrMapper;
 import org.springframework.stereotype.Service;
 
@@ -19,6 +20,11 @@ public class UsrDaoImpl implements UsrDao {
     @Override
     public Usr selectByPrimaryKey(String usrAccount) {
         return usrMapper.selectByPrimaryKey(usrAccount);
+    }
+
+    @Override
+    public List<UsrID> getUser() {
+        return usrMapper.getUser();
     }
 
     @Override

@@ -1,6 +1,10 @@
 package com.chinaunicom.management.controller;
 
 import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.JSONObject;
+import com.chinaunicom.management.entity.Usr;
+import com.chinaunicom.management.entity.dto.UsrID;
+import com.chinaunicom.management.orm.UsrDao;
 import com.chinaunicom.management.entity.Usr;
 import com.chinaunicom.management.entity.UsrRoleKey;
 import com.chinaunicom.management.orm.UsrDao;
@@ -18,6 +22,8 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletResponse;
+import java.util.List;
+
 import java.util.List;
 
 /**
@@ -111,6 +117,39 @@ public class UsrController {
             return;
         }
     }
+
+    //站内用户数量统计
+    @PostMapping("/userSortNum")
+    public JSONObject userSortNum() {
+        int pm = 0;
+        int rd = 0;
+        int test = 0;
+        int admin = 0;
+        JSONObject jsonObject = new JSONObject();
+        List list = usrDao.getUser();
+        for (int i = 0; i < list.size(); i++) {
+            UsrID usr = (UsrID) list.get(i);
+            String id = usr.getRole_id();
+            if (id.contains("pm")) {
+                pm++;
+            }
+            if (id.contains("rd")) {
+                rd++;
+            }
+            if (id.contains("test")) {
+                test++;
+            }
+            if (id.contains("admin")) {
+                admin++;
+            }
+        }
+        jsonObject.put("产品经理", pm);
+        jsonObject.put("研发", rd);
+        jsonObject.put("测试", test);
+        jsonObject.put("管理员", admin);
+        return jsonObject;
+    }
+
 
     @GetMapping("/login")
     public ModelAndView login() {
