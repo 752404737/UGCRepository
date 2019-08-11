@@ -21,6 +21,15 @@
         select * from question
     </select>
 
+    <select id="getQuestionRd" resultType="com.chinaunicom.management.entity.Question">
+        select * from question WHERE state='待开发' or state='开发中' or state='测试中' or state='线上测试中' ORDER BY FIND_IN_SET(state,"待开发,开发中,测试中,线上测试中"),FIND_IN_SET(priority,"高,中,低");
+    </select>
+
+    <select id="getQuestionDetails" parameterType="java.lang.String"
+            resultType="com.chinaunicom.management.entity.Question">
+        select * FROM  question WHERE id=#{questionDetailId,jdbcType=VARCHAR};
+    </select>
+
     <select id="getQuestionUptime" resultType="com.chinaunicom.management.entity.Question">
         SELECT*FROM question WHERE uptime !="" ORDER BY uptime
     </select>
@@ -36,4 +45,69 @@
     <select id="getQuestionTodayNum" resultType="java.lang.Integer">
         select count(id) from question where TO_DAYS(date) = TO_DAYS(NOW())
     </select>
+
+    <insert id="insertQuestion" parameterType="com.chinaunicom.management.entity.Question">
+        INSERT INTO question (id,question,description,type,writer,date,state,priority,dept,pm,dev,tester,lastsaved,uptime,connect)
+VALUES
+	(
+	#{id,jdbcType=VARCHAR},
+	#{question,jdbcType=VARCHAR},
+	#{description,jdbcType=VARCHAR},
+	#{type,jdbcType=VARCHAR},
+	#{writer,jdbcType=VARCHAR},
+	DATE_FORMAT( NOW( ), '%Y-%m-%d' ),
+	'未开始',
+	#{priority,jdbcType=VARCHAR},
+	#{dept,jdbcType=VARCHAR},
+	#{pm,jdbcType=VARCHAR},
+	#{dev,jdbcType=VARCHAR},
+	#{tester,jdbcType=VARCHAR},
+	DATE_FORMAT( NOW( ), '%Y-%m-%d' ),
+	NULL,
+	#{connect,jdbcType=VARCHAR}
+	);
+    </insert>
+    <update id="questionStateUpdate" parameterType="java.lang.String">
+UPDATE question
+SET
+`state` = #{state,jdbcType=VARCHAR}
+WHERE
+	`id` = #{id,jdbcType=VARCHAR}
+	;
+    </update>
+    <update id="questionUpdate" parameterType="com.chinaunicom.management.entity.Question">
+UPDATE question
+SET `question` = #{question,jdbcType=VARCHAR},
+`description` = #{description,jdbcType=VARCHAR},
+`type` = #{type,jdbcType=VARCHAR},
+`writer` = #{writer,jdbcType=VARCHAR},
+`priority` = #{priority,jdbcType=VARCHAR},
+`dept` = #{dept,jdbcType=VARCHAR},
+`pm` = #{pm,jdbcType=VARCHAR},
+`dev` = #{dev,jdbcType=VARCHAR},
+`tester` = #{tester,jdbcType=VARCHAR},
+`lastsaved` = DATE_FORMAT( NOW( ), '%Y-%m-%d' ),
+`connect` = #{connect,jdbcType=VARCHAR}
+WHERE
+	`id` = #{id,jdbcType=VARCHAR}
+	;
+    </update>
+    <select id="getQuestionComment" resultType="com.chinaunicom.management.entity.QuestionComment">
+SELECT
+	`usr`.usr_headportrait_url,
+	`usr`.usr_name,
+	`question_comment`.date,
+	`question_comment`.content,
+	`question`.question
+FROM
+	`question_comment`
+	LEFT JOIN `usr` ON `question_comment`.usr_account = `usr`.usr_account
+	LEFT JOIN `question` ON `question_comment`.questionid = `question`.id
+ORDER BY
+	date
+    </select>
+    <insert id="insertQuestionComment" parameterType="java.lang.String">
+        INSERT INTO question_comment(`usr_account`, `content`, `date`, `questionid`) VALUES (#{usr_account,jdbcType=VARCHAR}, #{content,jdbcType=VARCHAR}, DATE_FORMAT(NOW(), '%Y/%m/%d'), #{questionid,jdbcType=VARCHAR});
+    </insert>
+
 </mapper>

@@ -82,8 +82,8 @@ public class HelloWorldController {
         HttpUtils.printJsonToResponse(response, result);
     }
 
-    @GetMapping("/index")
-    public ModelAndView index() {
+    @GetMapping("/indexHello")
+    public ModelAndView indexHello() {
         return new ModelAndView("index");
     }
 
