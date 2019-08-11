@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.chinaunicom.management.orm.mapper.ForumAnswerMapper" >
+  <resultMap id="BaseResultMap" type="com.chinaunicom.management.entity.ForumAnswer" >
+    <id column="forum_answer_id" property="forumAnswerId" jdbcType="INTEGER" />
+    <result column="forum_content_id" property="forumContentId" jdbcType="INTEGER" />
+    <result column="usr_account" property="usrAccount" jdbcType="VARCHAR" />
+    <result column="like_count" property="likeCount" jdbcType="INTEGER" />
+    <result column="answer_count" property="answerCount" jdbcType="INTEGER" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.chinaunicom.management.entity.ForumAnswer" extends="BaseResultMap" >
+    <result column="answer_content" property="answerContent" jdbcType="LONGVARCHAR" />
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    forum_answer_id, forum_content_id, usr_account, like_count, answer_count, create_time
+  </sql>
+  <sql id="Blob_Column_List" >
+    answer_content
+  </sql>
+
+  <sql id="Forum_Answer_List">
+    fa.forum_answer_id forumAnswerId, fa.forum_content_id forumContentId, fa.usr_account usrAccount, fa.like_count likeCount, fa.answer_count answerCount
+    fa.create_time createTime, fa.answer_content answerContent
+  </sql>
+  <sql id="Usr_List">
+    u.usr_account "usr.usrAccount", u.usr_name "usr.usrName", u.usr_password "usr.usrPassword", u.usr_headportrait_url "usr.usrHeadportraitUrl"
+  </sql>
+
+  <!-- 获取关于提问的所有回答, inner join 位置对换后 报error pararmeter setting的错误 -->
+  <select id="getForumAnswerByForumContentId" resultType="com.chinaunicom.management.entity.ForumAnswer" parameterType="java.lang.Integer" >
+    select
+    <include refid="Forum_Answer_List"/>
+    ,
+    <include refid="Usr_List" />
+    from forum_answer fa
+    inner join usr u on fa.usr_account = u.usr_account
+    where fa.forum_content_id = #{forumContentId,jdbcType=INTEGER}
+  </select>
+
+  <!-- 分页查询，获取关于提问的所有回答 -->
+  <select id="selectForumAnswerForPage" resultType="com.chinaunicom.management.entity.ForumAnswer">
+    select
+    <include refid="Forum_Answer_List"/>
+    ,
+    <include refid="Usr_List" />
+    from forum_answer fa
+    inner join usr u on fa.usr_account = u.usr_account
+    where fa.forum_content_id = #{forumContentId,jdbcType=INTEGER}
+    order by forum_answer_id
+    limit ${(currentIndex-1)*pageSize}, #{pageSize, jdbcType=INTEGER}
+  </select>
+
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from forum_answer
+    where forum_answer_id = #{forumAnswerId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from forum_answer
+    where forum_answer_id = #{forumAnswerId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.chinaunicom.management.entity.ForumAnswer" >
+    insert into forum_answer (forum_answer_id, forum_content_id, usr_account, 
+      like_count, answer_count, create_time, answer_content
+      )
+    values (#{forumAnswerId,jdbcType=INTEGER}, #{forumContentId,jdbcType=INTEGER}, #{usrAccount,jdbcType=VARCHAR}, 
+      #{likeCount,jdbcType=INTEGER}, #{answerCount,jdbcType=INTEGER} #{createTime,jdbcType=TIMESTAMP}, #{answerContent,jdbcType=LONGVARCHAR}
+      )
+  </insert>
+  <!-- 插入对论坛问题的回答-->
+  <insert id="insertSelective" useGeneratedKeys="true" keyProperty="forumAnswerId" parameterType="com.chinaunicom.management.entity.ForumAnswer" >
+    insert into forum_answer
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="forumAnswerId != null" >
+        forum_answer_id,
+      </if>
+      <if test="forumContentId != null" >
+        forum_content_id,
+      </if>
+      <if test="usrAccount != null" >
+        usr_account,
+      </if>
+      <if test="likeCount != null" >
+        like_count,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="answerContent != null" >
+        answer_content,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="forumAnswerId != null" >
+        #{forumAnswerId,jdbcType=INTEGER},
+      </if>
+      <if test="forumContentId != null" >
+        #{forumContentId,jdbcType=INTEGER},
+      </if>
+      <if test="usrAccount != null" >
+        #{usrAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="likeCount != null" >
+        #{likeCount,jdbcType=INTEGER},
+      </if>
+      <if test="answerCount != null" >
+        #{answerCount,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="answerContent != null" >
+        #{answerContent,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.chinaunicom.management.entity.ForumAnswer" >
+    update forum_answer
+    <set >
+      <if test="forumContentId != null" >
+        forum_content_id = #{forumContentId,jdbcType=INTEGER},
+      </if>
+      <if test="usrAccount != null" >
+        usr_account = #{usrAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="likeCount != null" >
+        like_count = #{likeCount,jdbcType=INTEGER},
+      </if>
+      <if test="answerCount != null" >
+        answer_count = #{answerCount,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="answerContent != null" >
+        answer_content = #{answerContent,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where forum_answer_id = #{forumAnswerId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.chinaunicom.management.entity.ForumAnswer" >
+    update forum_answer
+    set forum_content_id = #{forumContentId,jdbcType=INTEGER},
+      usr_account = #{usrAccount,jdbcType=VARCHAR},
+      like_count = #{likeCount,jdbcType=INTEGER},
+      answer_count = #{answerCount, jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      answer_content = #{answerContent,jdbcType=LONGVARCHAR}
+    where forum_answer_id = #{forumAnswerId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.chinaunicom.management.entity.ForumAnswer" >
+    update forum_answer
+    set forum_content_id = #{forumContentId,jdbcType=INTEGER},
+      usr_account = #{usrAccount,jdbcType=VARCHAR},
+      like_count = #{likeCount,jdbcType=INTEGER},
+      answer_count = #{answerCount, jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP}
+    where forum_answer_id = #{forumAnswerId,jdbcType=INTEGER}
+  </update>
+</mapper>

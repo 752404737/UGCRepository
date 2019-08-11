@@ -11,4 +11,20 @@ import java.util.List;
 public interface UsrRoleDao {
     // 根据usrAccount获取roleId
     List<UsrRoleKey> getRoleIdByUsrAccount(String usrAccount);
+
+    /**
+     * 根据roleId获取usrAccount
+     * @param roleId 角色Id
+     * @return
+     */
+    List<UsrRoleKey> getUsrAccountByRoleId(String roleId);
+
+    /**
+     * 删除用户权限
+     * @param key
+     * @return
+     */
+    int deleteByPrimaryKey(UsrRoleKey key);
+
+    int insertSelective(UsrRoleKey record);
 }

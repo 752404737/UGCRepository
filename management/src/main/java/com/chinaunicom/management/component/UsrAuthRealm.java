@@ -85,7 +85,7 @@ public class UsrAuthRealm extends AuthorizingRealm {
 
         // 交给AuthenticationRealm使用CredentialsMatcher进行密码匹配
         SimpleAuthenticationInfo authenticationInfo= new SimpleAuthenticationInfo(
-                usr.getUsrAccount(),
+                usr,
                 usr.getUsrPassword(),
                 ByteSource.Util.bytes(usr.getUsrAccount() + "salt"),
                 getName()

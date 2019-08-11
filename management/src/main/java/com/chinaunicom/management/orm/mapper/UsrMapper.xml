@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.chinaunicom.management.orm.mapper.UsrMapper" >
-  <resultMap id="BaseResultMap" type="com.chinaunicom.management.entity.Usr" >
-    <id column="usr_account" property="usrAccount" jdbcType="VARCHAR" />
-    <result column="usr_name" property="usrName" jdbcType="VARCHAR" />
-    <result column="usr_password" property="usrPassword" jdbcType="VARCHAR" />
-    <result column="usr_headportrait_url" property="usrHeadportraitUrl" jdbcType="VARCHAR" />
-  </resultMap>
-  <sql id="Base_Column_List" >
+<mapper namespace="com.chinaunicom.management.orm.mapper.UsrMapper">
+    <resultMap id="BaseResultMap" type="com.chinaunicom.management.entity.Usr">
+        <id column="usr_account" property="usrAccount" jdbcType="VARCHAR"/>
+        <result column="usr_name" property="usrName" jdbcType="VARCHAR"/>
+        <result column="usr_password" property="usrPassword" jdbcType="VARCHAR"/>
+        <result column="usr_headportrait_url" property="usrHeadportraitUrl" jdbcType="VARCHAR"/>
+    </resultMap>
+    <sql id="Base_Column_List">
     usr_account, usr_name, usr_password, usr_headportrait_url
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
@@ -16,67 +16,79 @@
     from usr
     where usr_account = #{usrAccount,jdbcType=VARCHAR}
   </select>
+  <select id="selectByPrimaryKeyList" resultMap="BaseResultMap" >
+    select
+    <include refid="Base_Column_List"/>
+    from usr
+    where usr_account in
+    <foreach collection="usrAccountList" item="usrAccount" open="(" close=")" separator=",">
+      #{usrAccount}
+    </foreach>
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
-    delete from usr
-    where usr_account = #{usrAccount,jdbcType=VARCHAR}
-  </delete>
-  <insert id="insert" parameterType="com.chinaunicom.management.entity.Usr" >
+      delete from usr
+      where usr_account=#{usrAccount,jdbcType=VARCHAR}
+    </delete>
+    <insert id="insert" parameterType="com.chinaunicom.management.entity.Usr">
     insert into usr (usr_account, usr_name, usr_password, 
       usr_headportrait_url)
     values (#{usrAccount,jdbcType=VARCHAR}, #{usrName,jdbcType=VARCHAR}, #{usrPassword,jdbcType=VARCHAR}, 
       #{usrHeadportraitUrl,jdbcType=VARCHAR})
-  </insert>
-  <insert id="insertSelective" parameterType="com.chinaunicom.management.entity.Usr" >
-    insert into usr
-    <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="usrAccount != null" >
-        usr_account,
-      </if>
-      <if test="usrName != null" >
-        usr_name,
-      </if>
-      <if test="usrPassword != null" >
-        usr_password,
-      </if>
-      <if test="usrHeadportraitUrl != null" >
-        usr_headportrait_url,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="usrAccount != null" >
-        #{usrAccount,jdbcType=VARCHAR},
-      </if>
-      <if test="usrName != null" >
-        #{usrName,jdbcType=VARCHAR},
-      </if>
-      <if test="usrPassword != null" >
-        #{usrPassword,jdbcType=VARCHAR},
-      </if>
-      <if test="usrHeadportraitUrl != null" >
-        #{usrHeadportraitUrl,jdbcType=VARCHAR},
-      </if>
-    </trim>
-  </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.chinaunicom.management.entity.Usr" >
-    update usr
-    <set >
-      <if test="usrName != null" >
-        usr_name = #{usrName,jdbcType=VARCHAR},
-      </if>
-      <if test="usrPassword != null" >
-        usr_password = #{usrPassword,jdbcType=VARCHAR},
-      </if>
-      <if test="usrHeadportraitUrl != null" >
-        usr_headportrait_url = #{usrHeadportraitUrl,jdbcType=VARCHAR},
-      </if>
-    </set>
-    where usr_account = #{usrAccount,jdbcType=VARCHAR}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="com.chinaunicom.management.entity.Usr" >
+    </insert>
+    <insert id="insertSelective" parameterType="com.chinaunicom.management.entity.Usr">
+        insert into usr
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="usrAccount != null">
+                usr_account,
+            </if>
+            <if test="usrName != null">
+                usr_name,
+            </if>
+            <if test="usrPassword != null">
+                usr_password,
+            </if>
+            <if test="usrHeadportraitUrl != null">
+                usr_headportrait_url,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="usrAccount != null">
+                #{usrAccount,jdbcType=VARCHAR},
+            </if>
+            <if test="usrName != null">
+                #{usrName,jdbcType=VARCHAR},
+            </if>
+            <if test="usrPassword != null">
+                #{usrPassword,jdbcType=VARCHAR},
+            </if>
+            <if test="usrHeadportraitUrl != null">
+                #{usrHeadportraitUrl,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.chinaunicom.management.entity.Usr">
+        update usr
+        <set>
+            <if test="usrName != null">
+                usr_name = #{usrName,jdbcType=VARCHAR},
+            </if>
+            <if test="usrPassword != null">
+                usr_password = #{usrPassword,jdbcType=VARCHAR},
+            </if>
+            <if test="usrHeadportraitUrl != null">
+                usr_headportrait_url = #{usrHeadportraitUrl,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where usr_account = #{usrAccount,jdbcType=VARCHAR}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.chinaunicom.management.entity.Usr">
     update usr
     set usr_name = #{usrName,jdbcType=VARCHAR},
       usr_password = #{usrPassword,jdbcType=VARCHAR},
       usr_headportrait_url = #{usrHeadportraitUrl,jdbcType=VARCHAR}
     where usr_account = #{usrAccount,jdbcType=VARCHAR}
-  </update>
+    </update>
+    <select id="getUser" resultType="com.chinaunicom.management.entity.dto.UsrID">
+      SELECT `usr`.usr_account, `usr_role`.role_id FROM `usr` LEFT JOIN `usr_role` ON `usr`.usr_account = `usr_role`.usr_account
+    </select>
 </mapper>
