@@ -32,5 +32,10 @@ public class UsrRoleDaoImpl implements UsrRoleDao {
         return usrRoleMapper.deleteByPrimaryKey(key);
     }
 
+    @Override
+    public int insertSelective(UsrRoleKey record) {
+        return usrRoleMapper.insertSelective(record);
+    }
+
 
 }

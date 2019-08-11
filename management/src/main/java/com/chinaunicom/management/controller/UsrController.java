@@ -101,6 +101,7 @@ public class UsrController {
             obj.put("roleId", usrRoleKeyList.get(0).getRoleId());
             obj.put("usrAccount", usr.getUsrAccount());
             obj.put("usrName", usr.getUsrName());
+            obj.put("avatarUrl", usr.getUsrHeadportraitUrl());
             HttpUtils.printJsonToResponse(response, obj);
             return;
         } else {
