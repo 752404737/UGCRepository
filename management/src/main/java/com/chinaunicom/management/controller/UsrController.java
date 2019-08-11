@@ -94,10 +94,13 @@ public class UsrController {
             return;
         }
         if (subject.isAuthenticated()) {
+            Usr usr = usrDao.selectByPrimaryKey(usrName);
             List<UsrRoleKey> usrRoleKeyList = usrRoleDao.getRoleIdByUsrAccount(usrName);
             obj.put("msg", "登录成功!");
             obj.put("isSuccess", true);
             obj.put("roleId", usrRoleKeyList.get(0).getRoleId());
+            obj.put("usrAccount", usr.getUsrAccount());
+            obj.put("usrName", usr.getUsrName());
             HttpUtils.printJsonToResponse(response, obj);
             return;
         } else {
