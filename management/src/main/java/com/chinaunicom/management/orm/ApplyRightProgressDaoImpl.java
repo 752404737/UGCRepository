@@ -28,6 +28,16 @@ public class ApplyRightProgressDaoImpl implements ApplyRightProgressDao {
     }
 
     @Override
+    public List<ApplyRightProgress> getApplyRightProgressByApplyUsrAccount(String usrAccount) {
+        return applyRightProgressMapper.getApplyRightProgressByApplyUsrAccount(usrAccount);
+    }
+
+    @Override
+    public List<ApplyRightProgress> getApplyRightProgressByApplyUsrAccountForPage(String usrAccount, Integer currentIndex, Integer pageSize) {
+        return applyRightProgressMapper.getApplyRightProgressByApplyUsrAccountForPage(usrAccount, currentIndex, pageSize);
+    }
+
+    @Override
     public List<ApplyRightProgress> getApplyRightProgressByUsrAccountForPage(String usrAccount, Integer currentIndex, Integer pageSize) {
         return applyRightProgressMapper.getApplyRightProgressByUsrAccountForPage(usrAccount, currentIndex, pageSize);
     }

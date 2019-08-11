@@ -15,6 +15,25 @@
     usr_account, apply_role_id, apply_role_name, apply_usr_account, apply_usr_name, apply_state_name, 
     apply_state, create_time
   </sql>
+
+  <!-- 获取向管理员申请权限的申请进程，usrAccount:登入的管理员账号 分页查询-->
+  <select id="getApplyRightProgressByApplyUsrAccountForPage" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from apply_right_progress
+    where apply_usr_account = #{usrAccount, jdbcType=VARCHAR} and apply_state = 0
+    limit ${(currentIndex -1)*pageSize}, #{pageSize, jdbcType=INTEGER}
+  </select>
+
+  <!-- 获取向管理员申请权限的申请进程，usrAccount:登入的管理员账号-->
+  <select id="getApplyRightProgressByApplyUsrAccount" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
+    from apply_right_progress
+    where apply_usr_account = #{usrAccount, jdbcType=VARCHAR} and apply_state = 0
+  </select>
+
+  <!-- 获取用户申请的权限进程-->
   <select id="getApplyRightProgressByUsrAccount" parameterType="java.lang.String" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List" />

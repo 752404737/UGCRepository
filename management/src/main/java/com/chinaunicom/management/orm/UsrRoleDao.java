@@ -25,4 +25,6 @@ public interface UsrRoleDao {
      * @return
      */
     int deleteByPrimaryKey(UsrRoleKey key);
+
+    int insertSelective(UsrRoleKey record);
 }
