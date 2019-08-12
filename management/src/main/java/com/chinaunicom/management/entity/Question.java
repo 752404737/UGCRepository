@@ -21,6 +21,15 @@ public class Question {
     Date lastsaved;
     Date uptime;
     String connect;
+    String connectname;
+
+    public String getConnectname() {
+        return connectname;
+    }
+
+    public void setConnectname(String connectname) {
+        this.connectname = connectname;
+    }
 
     public String getState() {
         return state;
