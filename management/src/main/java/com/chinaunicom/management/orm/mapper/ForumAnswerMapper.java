@@ -27,6 +27,13 @@ public interface ForumAnswerMapper {
     int insert(ForumAnswer record);
 
     /**
+     * 获取用户回答问题被点赞的数量
+     * @param usrAccount
+     * @return
+     */
+    int getLikeCountByUsrAccount(String usrAccount);
+
+    /**
      * 添加对论坛提问的回答
      * @param record
      * @return 插入数据条数的数量

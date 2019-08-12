@@ -1,5 +1,6 @@
 package com.chinaunicom.management.controller;
 
+import com.alibaba.fastjson.JSONObject;
 import com.chinaunicom.management.entity.ForumAnswer;
 import com.chinaunicom.management.entity.ForumComment;
 import com.chinaunicom.management.entity.ForumContent;
@@ -8,12 +9,14 @@ import com.chinaunicom.management.entity.dto.PageQueryParam;
 import com.chinaunicom.management.orm.ForumAnswerDao;
 import com.chinaunicom.management.orm.ForumCommentDao;
 import com.chinaunicom.management.orm.ForumContentDao;
+import com.chinaunicom.management.util.HttpUtils;
 import com.chinaunicom.management.util.SessionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -84,6 +87,32 @@ public class ForumController {
     @PostMapping("/getForumContentById")
     public ForumContent getForumContentById(Integer forumContentId) {
         return forumContentDao.selectByPrimaryKey(forumContentId);
+    }
+
+    /**
+     * 获取用户的所有提问的数量
+     * @param response
+     */
+    @PostMapping("/getForumContentCountByUsrAccount")
+    public void getForumContentCountByUsrAccount(HttpServletResponse response) {
+        Usr usr = SessionUtils.getUsrFromSession();
+        int count = forumContentDao.getForumContentCountByUsrAccount(usr.getUsrAccount());
+        JSONObject obj = new JSONObject();
+        obj.put("forumContentCount", count);
+        HttpUtils.printJsonToResponse(response, obj);
+    }
+
+    /**
+     * 获取用户回答问题所获得的点赞数量
+     * @param response
+     */
+    @PostMapping("/getLikeCountByUsrAccount")
+    public void getLikeCountByUsrAccount(HttpServletResponse response) {
+        Usr usr = SessionUtils.getUsrFromSession();
+        int count = forumAnswerDao.getLikeCountByUsrAccount(usr.getUsrAccount());
+        JSONObject obj = new JSONObject();
+        obj.put("likeCount", count);
+        HttpUtils.printJsonToResponse(response, obj);
     }
 
     /**

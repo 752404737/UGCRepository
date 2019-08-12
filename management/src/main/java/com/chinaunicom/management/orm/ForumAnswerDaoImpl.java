@@ -1,7 +1,6 @@
 package com.chinaunicom.management.orm;
 
 import com.chinaunicom.management.entity.ForumAnswer;
-import com.chinaunicom.management.entity.dto.PageQueryParam;
 import com.chinaunicom.management.orm.mapper.ForumAnswerMapper;
 import org.springframework.stereotype.Service;
 
@@ -31,6 +30,11 @@ public class ForumAnswerDaoImpl implements ForumAnswerDao {
     @Override
     public List<ForumAnswer> selectForumAnswerForPage(Integer forumContentId, Integer currentIndex, Integer pageSize) {
         return forumAnswerMapper.selectForumAnswerForPage(forumContentId, currentIndex, pageSize);
+    }
+
+    @Override
+    public int getLikeCountByUsrAccount(String usrAccount) {
+        return forumAnswerMapper.getLikeCountByUsrAccount(usrAccount);
     }
 
     @Override

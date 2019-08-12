@@ -21,14 +21,23 @@
   </sql>
 
   <sql id="Forum_Answer_List">
-    fa.forum_answer_id forumAnswerId, fa.forum_content_id forumContentId, fa.usr_account usrAccount, fa.like_count likeCount, fa.answer_count answerCount
+    fa.forum_answer_id forumAnswerId, fa.forum_content_id forumContentId, fa.usr_account usrAccount, fa.like_count likeCount, fa.answer_count answerCount,
     fa.create_time createTime, fa.answer_content answerContent
   </sql>
   <sql id="Usr_List">
     u.usr_account "usr.usrAccount", u.usr_name "usr.usrName", u.usr_password "usr.usrPassword", u.usr_headportrait_url "usr.usrHeadportraitUrl"
   </sql>
 
-  <!-- 获取关于提问的所有回答, inner join 位置对换后 报error pararmeter setting的错误 -->
+  <!-- 获取用户回答问题被点赞的数量 -->
+  <select id="getLikeCountByUsrAccount" resultType="java.lang.Integer">
+    select
+    sum(like_count)
+    from
+    forum_answer
+    where usr_account=#{usrAccount,jdbcType=VARCHAR}
+  </select>
+
+  <!-- 获取关于提问的所有回答, inner join 位置对换后 报error parameter setting的错误 -->
   <select id="getForumAnswerByForumContentId" resultType="com.chinaunicom.management.entity.ForumAnswer" parameterType="java.lang.Integer" >
     select
     <include refid="Forum_Answer_List"/>

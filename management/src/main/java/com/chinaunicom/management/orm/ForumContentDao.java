@@ -27,6 +27,13 @@ public interface ForumContentDao {
      */
     ForumContent selectByPrimaryKey(Integer forumContentId);
 
+    /**
+     * 获取用户所提出的问题数量
+     * @param usrAccount 用户账号
+     * @return
+     */
+    int getForumContentCountByUsrAccount(String usrAccount);
+
     int insertSelective(ForumContent record);
 
     int updateByPrimaryKeySelective(ForumContent record);

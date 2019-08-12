@@ -30,6 +30,14 @@
     u.usr_account "usr.usrAccount", u.usr_name "usr.usrName", u.usr_password "usr.usrPassword", u.usr_headportrait_url "usr.usrHeadportraitUrl"
   </sql>
 
+  <!-- 获取用户所提出的问题数量-->
+  <select id="getForumContentCountByUsrAccount" resultType="java.lang.Integer">
+    select
+    count(*)
+    from forum_content
+    where usr_account = #{usrAccount, jdbcType=VARCHAR}
+  </select>
+
   <!-- 获取所有论坛中的内容 -->
   <select id="selectAllForumContent" resultType="com.chinaunicom.management.entity.ForumContent">
     select
