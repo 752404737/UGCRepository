@@ -46,6 +46,7 @@
     from forum_answer fa
     inner join usr u on fa.usr_account = u.usr_account
     where fa.forum_content_id = #{forumContentId,jdbcType=INTEGER}
+    order by fa.create_time desc
   </select>
 
   <!-- 分页查询，获取关于提问的所有回答 -->

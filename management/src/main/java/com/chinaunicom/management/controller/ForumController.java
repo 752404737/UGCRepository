@@ -121,7 +121,7 @@ public class ForumController {
      * @param answerContent
      * @return
      */
-    @PostMapping("/saveForumAnswer")
+    /*@PostMapping("/saveForumAnswer")
     public ForumAnswer saveForumAnswer(Integer forumContentId, String answerContent) {
         Usr usr = SessionUtils.getUsrFromSession();
         ForumAnswer forumAnswer = new ForumAnswer();
@@ -140,6 +140,26 @@ public class ForumController {
         forumContentDao.updateByPrimaryKeySelective(forumContent);
 
         return forumAnswer;
+    }*/
+    @PostMapping("/saveForumAnswer")
+    public List<ForumAnswer> saveForumAnswer(Integer forumContentId, String answerContent) {
+        Usr usr = SessionUtils.getUsrFromSession();
+        ForumAnswer forumAnswer = new ForumAnswer();
+        forumAnswer.setForumContentId(forumContentId);
+        forumAnswer.setUsrAccount(usr.getUsrAccount());
+        forumAnswer.setAnswerContent(answerContent);
+        forumAnswer.setLikeCount(0);
+        forumAnswer.setCreateTime(new Date());
+        forumAnswerDao.insertSelective(forumAnswer);
+        //forumAnswer.setUsr(usr);
+
+        // 更新回答问题数
+        ForumContent forumContent = forumContentDao.selectByPrimaryKey(forumContentId);
+        Integer answerCount = forumContent.getAnswerCount() + 1;
+        forumContent.setAnswerCount(answerCount);
+        forumContentDao.updateByPrimaryKeySelective(forumContent);
+
+        return forumAnswerDao.getForumAnswerByForumContentId(forumContentId);
     }
 
     /**
