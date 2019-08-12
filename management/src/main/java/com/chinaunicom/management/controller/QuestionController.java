@@ -40,17 +40,21 @@ public class QuestionController {
 
     //问题总数统计
     @GetMapping("/questionNum")
-    public Integer questionNum() {
+    public JSONObject questionNum() {
         int a = questionDao.getQuestionNum();
-        return a;
+        int b = questionDao.getQuestionTodayNum();
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("totalNum", a);
+        jsonObject.put("todayNum", b);
+        return jsonObject;
     }
 
     //今日问题数量统计
-    @GetMapping("/questionTodayNum")
-    public Integer questionTodayNum() {
-        int b = questionDao.getQuestionTodayNum();
-        return b;
-    }
+//    @GetMapping("/questionTodayNum")
+//    public Integer questionTodayNum() {
+//        int b = questionDao.getQuestionTodayNum();
+//        return b;
+//    }
 
     //站内信息（新问题、解决问题、关闭问题14天每天统计数）
     @PostMapping("/questionHandle")
