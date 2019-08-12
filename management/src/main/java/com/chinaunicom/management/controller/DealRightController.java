@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletResponse;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 /**
@@ -66,15 +67,17 @@ public class DealRightController {
         List<ApplyRightProgress> applyRightProgressList = applyRightProgressDao.getApplyRightProgressByApplyUsrAccountForPage(usr.getUsrAccount(),
                 pageQueryParam.getCurrentIndex(), pageQueryParam.getPageSize());
         JSONArray jsonArray = new JSONArray();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         for(ApplyRightProgress arp : applyRightProgressList) {
             Usr u = usrDao.selectByPrimaryKey(arp.getUsrAccount());
             if (u == null) continue;
             JSONObject obj = new JSONObject();
+            obj.put("avatar", u.getUsrHeadportraitUrl());
             obj.put("usrAccount", u.getUsrAccount());
             obj.put("usrName", u.getUsrName());
             obj.put("applyRoleId", arp.getApplyRoleId());
             obj.put("roleName", arp.getApplyRoleName());
-            obj.put("createTime", arp.getCreateTime());
+            obj.put("createTime", sdf.format(arp.getCreateTime()));
             jsonArray.add(obj);
         }
         HttpUtils.printJsonToResponse(response, jsonArray);
