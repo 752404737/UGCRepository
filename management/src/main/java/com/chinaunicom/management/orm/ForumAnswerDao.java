@@ -1,7 +1,6 @@
 package com.chinaunicom.management.orm;
 
 import com.chinaunicom.management.entity.ForumAnswer;
-import com.chinaunicom.management.entity.dto.PageQueryParam;
 
 import java.util.List;
 
@@ -32,6 +31,13 @@ public interface ForumAnswerDao {
      * @return
      */
     List<ForumAnswer> selectForumAnswerForPage(Integer forumContentId, Integer currentIndex, Integer pageSize);
+
+    /**
+     * 获取用户回答问题被点赞的数量
+     * @param usrAccount
+     * @return
+     */
+    int getLikeCountByUsrAccount(String usrAccount);
 
     ForumAnswer selectByPrimaryKey(Integer forumAnswerId);
 

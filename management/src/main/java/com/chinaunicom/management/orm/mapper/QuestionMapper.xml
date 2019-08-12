@@ -17,7 +17,11 @@
         select <include refid="Base_Column_List"/> FROM hello_world
     </select>-->
 
-    <select id="getQuestion" resultType="com.chinaunicom.management.entity.Question">
+    <select id="getQuestionSort" resultType="com.chinaunicom.management.entity.Question">
+        select * from question
+        limit ${(currentIndex-1)*pageSize}, #{pageSize, jdbcType=INTEGER}
+    </select>
+	<select id="getQuestion" resultType="com.chinaunicom.management.entity.Question">
         select * from question
     </select>
 
@@ -25,9 +29,62 @@
         select * from question WHERE state='待开发' or state='开发中' or state='测试中' or state='线上测试中' ORDER BY FIND_IN_SET(state,"待开发,开发中,测试中,线上测试中"),FIND_IN_SET(priority,"高,中,低");
     </select>
 
-    <select id="getQuestionDetails" parameterType="java.lang.String"
-            resultType="com.chinaunicom.management.entity.Question">
-        select * FROM  question WHERE id=#{questionDetailId,jdbcType=VARCHAR};
+    <select id="getQuestionDetails" parameterType="java.lang.String" resultType="com.chinaunicom.management.entity.Question">
+        SELECT
+	a.*,
+	b.question connectname
+FROM
+	question a,
+	question b
+WHERE
+	a.id = #{questionDetailId,jdbcType=VARCHAR}
+	AND a.connect = b.id
+    </select>
+
+    <select id="getQuestionToDo" parameterType="java.lang.String"
+            resultType="com.chinaunicom.management.entity.QuestionToDo">
+        SELECT
+	`question`.id,
+	`question`.question,
+	`question`.priority,
+	`question`.dev,
+	`question`.tester,
+	`question`.state
+FROM
+	`question`
+WHERE
+	`question`.state = "未开始"
+	OR `question`.state = "项目规划中"
+	OR `question`.state = "待验收"
+	OR `question`.state = "验收中"
+	OR `question`.state = "等待上线中"
+	OR `question`.state = "线上测试中"
+ORDER BY
+	FIND_IN_SET( priority, "高,中,低" )
+	limit ${(currentIndex-1)*pageSize}, #{pageSize, jdbcType=INTEGER}
+    </select>
+
+    <select id="getQuestionToDoNum" parameterType="java.lang.String"
+            resultType="com.chinaunicom.management.entity.QuestionToDo">
+        SELECT
+	`question`.id,
+	`question`.question,
+	`question`.priority,
+	`question`.dev,
+	`question`.tester,
+	`question`.state
+FROM
+	`question`
+WHERE
+	`question`.state = "未开始"
+	OR `question`.state = "项目规划中"
+	OR `question`.state = "待验收"
+	OR `question`.state = "验收中"
+	OR `question`.state = "等待上线中"
+	OR `question`.state = "线上测试中"
+	OR `question`.state = "已关闭"
+ORDER BY
+	FIND_IN_SET( priority, "高,中,低" )
     </select>
 
     <select id="getQuestionUptime" resultType="com.chinaunicom.management.entity.Question">
@@ -80,10 +137,8 @@ UPDATE question
 SET `question` = #{question,jdbcType=VARCHAR},
 `description` = #{description,jdbcType=VARCHAR},
 `type` = #{type,jdbcType=VARCHAR},
-`writer` = #{writer,jdbcType=VARCHAR},
 `priority` = #{priority,jdbcType=VARCHAR},
 `dept` = #{dept,jdbcType=VARCHAR},
-`pm` = #{pm,jdbcType=VARCHAR},
 `dev` = #{dev,jdbcType=VARCHAR},
 `tester` = #{tester,jdbcType=VARCHAR},
 `lastsaved` = DATE_FORMAT( NOW( ), '%Y-%m-%d' ),
@@ -106,8 +161,45 @@ FROM
 ORDER BY
 	date
     </select>
+    <select id="getQuestionOneComment" resultType="com.chinaunicom.management.entity.QuestionOneComment">
+SELECT
+	`usr`.usr_name,
+	`usr`.usr_headportrait_url,
+	`question_comment`.date,
+	`question_comment`.content
+FROM
+	`question_comment`
+	LEFT JOIN `usr` ON `question_comment`.usr_account = `usr`.usr_account
+WHERE
+	questionid = #{questionid,jdbcType=VARCHAR}
+ORDER BY
+	date DESC
+    </select>
+    <select id="getQuestionOneProcess" resultType="com.chinaunicom.management.entity.QuestionOneProcess">
+SELECT
+	`usr`.usr_name,
+	`usr`.usr_headportrait_url,
+	`question_handle`.date,
+	`question_handle`.type
+FROM
+	`question_handle`
+	LEFT JOIN `usr` ON `question_handle`.usr_account = `usr`.usr_account
+WHERE
+	questionid = #{questionid,jdbcType=VARCHAR}
+ORDER BY
+	date DESC
+    </select>
     <insert id="insertQuestionComment" parameterType="java.lang.String">
         INSERT INTO question_comment(`usr_account`, `content`, `date`, `questionid`) VALUES (#{usr_account,jdbcType=VARCHAR}, #{content,jdbcType=VARCHAR}, DATE_FORMAT(NOW(), '%Y/%m/%d'), #{questionid,jdbcType=VARCHAR});
     </insert>
-
+	<insert id="insertQuestionProcess" parameterType="java.lang.String">
+        INSERT INTO question_handle(`usr_account`, `type`, `questionid`,`date`) VALUES (#{usr_account,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, #{questionid,jdbcType=VARCHAR}, DATE_FORMAT(NOW(), '%Y/%m/%d'));
+    </insert>
+	<update id="questionConnectUpdate" parameterType="java.lang.String">
+UPDATE question
+SET
+`connect` = #{connect,jdbcType=VARCHAR}
+WHERE
+	`id` = #{id,jdbcType=VARCHAR}
+    </update>
 </mapper>

@@ -3,8 +3,10 @@ package com.chinaunicom.management.controller;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.chinaunicom.management.entity.HelloWorld;
+import com.chinaunicom.management.entity.Usr;
 import com.chinaunicom.management.orm.HelloWorldDao;
 import com.chinaunicom.management.util.HttpUtils;
+import com.chinaunicom.management.util.SessionUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.shiro.authz.annotation.RequiresRoles;
@@ -91,5 +93,10 @@ public class HelloWorldController {
     @PostMapping("/helloAdmin")
     public String helloAdmin() {
         return "admin";
+    }
+
+    @PostMapping("/getUsrFromSession")
+    public Usr getUsrFromSession() {
+        return SessionUtils.getUsrFromSession();
     }
 }

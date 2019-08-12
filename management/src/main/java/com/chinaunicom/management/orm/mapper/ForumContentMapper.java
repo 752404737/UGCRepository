@@ -18,6 +18,13 @@ public interface ForumContentMapper {
      */
     List<ForumContent> selectForumContentForPage(PageQueryParam pageQueryParam);
 
+    /**
+     * 获取用户所提出的问题数量
+     * @param usrAccount 用户账号
+     * @return
+     */
+    int getForumContentCountByUsrAccount(String usrAccount);
+
     int deleteByPrimaryKey(Integer forumContentId);
 
     int insert(ForumContent record);

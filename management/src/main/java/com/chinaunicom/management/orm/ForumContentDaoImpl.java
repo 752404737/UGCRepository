@@ -33,6 +33,11 @@ public class ForumContentDaoImpl implements ForumContentDao {
     }
 
     @Override
+    public int getForumContentCountByUsrAccount(String usrAccount) {
+        return forumContentMapper.getForumContentCountByUsrAccount(usrAccount);
+    }
+
+    @Override
     public int insertSelective(ForumContent record) {
         return forumContentMapper.insertSelective(record);
     }
