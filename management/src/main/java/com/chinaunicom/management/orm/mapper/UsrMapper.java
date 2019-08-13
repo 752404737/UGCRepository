@@ -24,4 +24,6 @@ public interface UsrMapper {
     int updateByPrimaryKey(Usr record);
 
     List<UsrID> getUser();
+
+    String getUserImg(String usr_name);
 }

@@ -28,6 +28,11 @@ public class UsrDaoImpl implements UsrDao {
     }
 
     @Override
+    public String getUserImg(String usr_name) {
+        return usrMapper.getUserImg(usr_name);
+    }
+
+    @Override
     public List<Usr> selectByPrimaryKeyList(List<String> usrAccountList) {
         return usrMapper.selectByPrimaryKeyList(usrAccountList);
     }

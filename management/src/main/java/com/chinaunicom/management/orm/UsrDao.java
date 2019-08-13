@@ -16,4 +16,6 @@ public interface UsrDao {
     // 批量查询用户
     List<Usr> selectByPrimaryKeyList(List<String> usrAccountList);
     List<UsrID> getUser();
+
+    String getUserImg(String usr_name);
 }

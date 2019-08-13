@@ -91,4 +91,12 @@
     <select id="getUser" resultType="com.chinaunicom.management.entity.dto.UsrID">
       SELECT `usr`.usr_account, `usr_role`.role_id FROM `usr` LEFT JOIN `usr_role` ON `usr`.usr_account = `usr_role`.usr_account
     </select>
+    <select id="getUserImg"  parameterType="java.lang.String" resultType="java.lang.String">
+SELECT
+	usr_headportrait_url
+FROM
+	`usr`
+WHERE
+	usr_name = #{usr_name,jdbcType=VARCHAR}
+    </select>
 </mapper>

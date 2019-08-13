@@ -8,6 +8,7 @@ import com.chinaunicom.management.entity.dto.PageQueryParam;
 import com.chinaunicom.management.entity.dto.QuestionHandleImg;
 import com.chinaunicom.management.orm.QuestionDao;
 import com.chinaunicom.management.orm.QuestionHandleDao;
+import com.chinaunicom.management.orm.UsrDao;
 import com.chinaunicom.management.orm.UsrRoleDao;
 import com.chinaunicom.management.util.SessionUtils;
 import org.apache.logging.log4j.LogManager;
@@ -36,6 +37,9 @@ public class QuestionController {
 
     @Autowired
     private UsrRoleDao usrRoleDao;
+
+    @Autowired
+    private UsrDao usrDao;
 
 
     //问题总数统计
@@ -346,11 +350,15 @@ public class QuestionController {
         jsonObject.put("connect", question.getConnect());
         jsonObject.put("connectname", question.getConnectname());
         jsonObject.put("pm", question.getPm());
+        jsonObject.put("pmImg", usrDao.getUserImg(question.getPm()));
         String string = question.getDev();
         String[] arr = string.split(";");
         jsonObject.put("dev1", arr[0]);
         jsonObject.put("dev2", arr[1]);
+        jsonObject.put("dev1Img", usrDao.getUserImg(arr[0]));
+        jsonObject.put("dev2Img", usrDao.getUserImg(arr[1]));
         jsonObject.put("tester", question.getTester());
+        jsonObject.put("testerImg", usrDao.getUserImg(question.getTester()));
         jsonObject.put("date", question.getDate());
         jsonObject.put("lastsaved", question.getLastsaved());
         jsonObject.put("question", question.getQuestion());
@@ -382,6 +390,9 @@ public class QuestionController {
             jsonObject.put("develop1Name", arr[0]);
             jsonObject.put("develop2Name", arr[1]);
             jsonObject.put("testerName", questionToDo.getTester());
+            jsonObject.put("testerImg", usrDao.getUserImg(questionToDo.getTester()));
+            jsonObject.put("develop1Img", usrDao.getUserImg(arr[0]));
+            jsonObject.put("develop2Img", usrDao.getUserImg(arr[1]));
             jsonObject.put("status", questionToDo.getState());
             String stateNow = questionToDo.getState();
             String button = null;
@@ -678,19 +689,77 @@ public class QuestionController {
 
     //研发工作面板中心
     @PostMapping("/rdCenter")
-    public JSONArray rdCenter() {
+    public JSONArray rdCenter(HttpServletRequest request) {
+        String state = request.getParameter("state");
         JSONArray jsonArray = new JSONArray();
-        List a = questionDao.getQuestionRd();
-        for (int i = 0; i < a.size(); i++) {
-            JSONObject object = new JSONObject();
-            Question question = (Question) a.get(i);
-            object.put("状态", question.getState());
-            object.put("编号", question.getId());
-            object.put("名称", question.getQuestion());
-            object.put("优先级", question.getPriority());
-//            object.put("测试人员", question.getTester());
-//            object.put("产品经理", question.getPm());
-            jsonArray.add(object);
+        if (state.equals("待开发")) {
+            List a = questionDao.getQuestionRd();
+            for (int i = 0; i < a.size(); i++) {
+                JSONObject object = new JSONObject();
+                Question question = (Question) a.get(i);
+                if (question.getState().equals("待开发")) {
+                    object.put("id", question.getId());
+                    object.put("question", question.getQuestion());
+                    object.put("priority", question.getPriority());
+                    object.put("test", question.getTester());
+                    object.put("pm", question.getPm());
+                    object.put("testImg", usrDao.getUserImg(question.getTester()));
+                    object.put("pmImg", usrDao.getUserImg(question.getPm()));
+
+                    jsonArray.add(object);
+                }
+            }
+        }
+        if (state.equals("开发中")) {
+            List a = questionDao.getQuestionRd();
+            for (int i = 0; i < a.size(); i++) {
+                JSONObject object = new JSONObject();
+                Question question = (Question) a.get(i);
+                if (question.getState().equals("开发中")) {
+                    object.put("id", question.getId());
+                    object.put("question", question.getQuestion());
+                    object.put("priority", question.getPriority());
+                    object.put("test", question.getTester());
+                    object.put("pm", question.getPm());
+                    object.put("testImg", usrDao.getUserImg(question.getTester()));
+                    object.put("pmImg", usrDao.getUserImg(question.getPm()));
+                    jsonArray.add(object);
+                }
+            }
+        }
+        if (state.equals("测试中")) {
+            List a = questionDao.getQuestionRd();
+            for (int i = 0; i < a.size(); i++) {
+                JSONObject object = new JSONObject();
+                Question question = (Question) a.get(i);
+                if (question.getState().equals("测试中")) {
+                    object.put("id", question.getId());
+                    object.put("question", question.getQuestion());
+                    object.put("priority", question.getPriority());
+                    object.put("test", question.getTester());
+                    object.put("pm", question.getPm());
+                    object.put("testImg", usrDao.getUserImg(question.getTester()));
+                    object.put("pmImg", usrDao.getUserImg(question.getPm()));
+                    jsonArray.add(object);
+                }
+            }
+        }
+        if (state.equals("待上线")) {
+            List a = questionDao.getQuestionRd();
+            for (int i = 0; i < a.size(); i++) {
+                JSONObject object = new JSONObject();
+                Question question = (Question) a.get(i);
+                if (question.getState().equals("等待上线中")) {
+                    object.put("id", question.getId());
+                    object.put("question", question.getQuestion());
+                    object.put("priority", question.getPriority());
+                    object.put("test", question.getTester());
+                    object.put("pm", question.getPm());
+                    object.put("testImg", usrDao.getUserImg(question.getTester()));
+                    object.put("pmImg", usrDao.getUserImg(question.getPm()));
+                    jsonArray.add(object);
+                }
+            }
         }
         return jsonArray;
     }

@@ -16,7 +16,6 @@
     <select id="getHelloWorld" resultMap="BaseResultMap">
         select <include refid="Base_Column_List"/> FROM hello_world
     </select>-->
-
     <select id="getQuestionSort" resultType="com.chinaunicom.management.entity.Question">
         select * from question
         limit ${(currentIndex-1)*pageSize}, #{pageSize, jdbcType=INTEGER}
