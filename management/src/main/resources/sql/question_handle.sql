@@ -11,7 +11,7 @@
  Target Server Version : 50727
  File Encoding         : 65001
 
- Date: 11/08/2019 17:50:14
+ Date: 13/08/2019 08:18:18
 */
 
 SET NAMES utf8mb4;
@@ -28,7 +28,7 @@ CREATE TABLE `question_handle`  (
   `questionid` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
   `date` date DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 36 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 79 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of question_handle
@@ -68,5 +68,47 @@ INSERT INTO `question_handle` VALUES (32, 'czy', '开始测试', 'IP-016', '2019
 INSERT INTO `question_handle` VALUES (33, 'czy', '测试完成', 'IP-016', '2019-08-01');
 INSERT INTO `question_handle` VALUES (34, 'czy', '项目已上线', 'IP-016', '2019-08-02');
 INSERT INTO `question_handle` VALUES (35, 'czy', '线上测试通过', 'IP-016', '2019-08-03');
+INSERT INTO `question_handle` VALUES (37, 'xls', '开始开发', 'IP-003', '2019-08-12');
+INSERT INTO `question_handle` VALUES (38, 'xls', '规划完成', 'IP-002', '2019-08-12');
+INSERT INTO `question_handle` VALUES (39, 'xls', '线上测试通过', 'IP-029', '2019-08-12');
+INSERT INTO `question_handle` VALUES (40, 'xls', '规划完成', 'IP-033', '2019-08-12');
+INSERT INTO `question_handle` VALUES (41, 'xls', '线上测试通过', 'IP-037', '2019-08-12');
+INSERT INTO `question_handle` VALUES (42, 'xls', '开始验收', 'IP-001', '2019-08-12');
+INSERT INTO `question_handle` VALUES (43, 'xls', '验收完成', 'IP-001', '2019-08-12');
+INSERT INTO `question_handle` VALUES (44, 'xls', '开始验收', 'IP-004', '2019-08-12');
+INSERT INTO `question_handle` VALUES (45, 'xls', '验收完成', 'IP-004', '2019-08-12');
+INSERT INTO `question_handle` VALUES (46, 'xls', '线上测试通过', 'IP-006', '2019-08-12');
+INSERT INTO `question_handle` VALUES (47, 'xls', '规划完成', 'IP-025', '2019-08-12');
+INSERT INTO `question_handle` VALUES (48, 'xls', '开始验收', 'IP-027', '2019-08-12');
+INSERT INTO `question_handle` VALUES (49, 'xls', '验收完成', 'IP-027', '2019-08-12');
+INSERT INTO `question_handle` VALUES (50, 'xls', '开始验收', 'IP-035', '2019-08-12');
+INSERT INTO `question_handle` VALUES (51, 'xls', '验收完成', 'IP-035', '2019-08-12');
+INSERT INTO `question_handle` VALUES (52, 'xls', '项目已上线', 'IP-050', '2019-08-12');
+INSERT INTO `question_handle` VALUES (53, 'xls', '项目已上线', 'IP-050', '2019-08-12');
+INSERT INTO `question_handle` VALUES (54, 'xls', '线上测试通过', 'IP-050', '2019-08-12');
+INSERT INTO `question_handle` VALUES (55, 'xls', '项目已上线', 'IP-056', '2019-08-12');
+INSERT INTO `question_handle` VALUES (56, 'xls', '项目已上线', 'IP-059', '2019-08-12');
+INSERT INTO `question_handle` VALUES (57, 'xls', '\"项目已上线\"', '\"IP-050\"', '2019-08-12');
+INSERT INTO `question_handle` VALUES (58, 'xls', '项目已上线', 'IP-010', '2019-08-12');
+INSERT INTO `question_handle` VALUES (59, 'xls', '线上测试通过', 'IP-010', '2019-08-12');
+INSERT INTO `question_handle` VALUES (60, 'xls', '项目已上线', 'IP-011', '2019-08-12');
+INSERT INTO `question_handle` VALUES (61, 'xls', '线上测试通过', 'IP-011', '2019-08-12');
+INSERT INTO `question_handle` VALUES (62, 'xls', '项目已上线', 'IP-012', '2019-08-12');
+INSERT INTO `question_handle` VALUES (63, 'xls', '线上测试通过', 'IP-012', '2019-08-12');
+INSERT INTO `question_handle` VALUES (64, 'xls', '项目已上线', 'IP-017', '2019-08-12');
+INSERT INTO `question_handle` VALUES (65, 'xls', '线上测试通过', 'IP-017', '2019-08-12');
+INSERT INTO `question_handle` VALUES (66, 'xls', '项目已上线', 'IP-019', '2019-08-12');
+INSERT INTO `question_handle` VALUES (67, 'xls', '线上测试通过', 'IP-019', '2019-08-12');
+INSERT INTO `question_handle` VALUES (68, 'xls', '项目已上线', 'IP-022', '2019-08-12');
+INSERT INTO `question_handle` VALUES (69, 'xls', '线上测试通过', 'IP-022', '2019-08-12');
+INSERT INTO `question_handle` VALUES (70, 'xls', '项目已上线', 'IP-053', '2019-08-12');
+INSERT INTO `question_handle` VALUES (71, 'xls', '线上测试通过', 'IP-053', '2019-08-12');
+INSERT INTO `question_handle` VALUES (72, 'xls', '线上测试通过', 'IP-056', '2019-08-12');
+INSERT INTO `question_handle` VALUES (73, 'xls', '线上测试通过', 'IP-059', '2019-08-12');
+INSERT INTO `question_handle` VALUES (74, 'xls', '项目已上线', 'IP-062', '2019-08-12');
+INSERT INTO `question_handle` VALUES (75, 'xls', '项目已上线', 'IP-051', '2019-08-12');
+INSERT INTO `question_handle` VALUES (76, 'xls', '线上测试通过', 'IP-051', '2019-08-12');
+INSERT INTO `question_handle` VALUES (77, 'xls', '项目已上线', 'IP-054', '2019-08-12');
+INSERT INTO `question_handle` VALUES (78, 'xls', '线上测试通过', 'IP-054', '2019-08-12');
 
 SET FOREIGN_KEY_CHECKS = 1;
